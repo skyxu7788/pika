@@ -1,0 +1,516 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		330F5A082FC8F3E100157722 /* OnboardingStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330F5A072FC8F3E100157722 /* OnboardingStore.swift */; };
+		330F5A0A2FC8F41700157722 /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330F5A092FC8F41700157722 /* AudioRecorder.swift */; };
+		330F5A0C2FC8F49500157722 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330F5A0B2FC8F49500157722 /* CameraController.swift */; };
+		330F5A0E2FC8F4FB00157722 /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330F5A0D2FC8F4FB00157722 /* CameraPreviewView.swift */; };
+		33D3F2C02FC8D531000335E2 /* PikaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3F2BF2FC8D531000335E2 /* PikaApp.swift */; };
+		33D3F2C22FC8D531000335E2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3F2C12FC8D531000335E2 /* ContentView.swift */; };
+		33D3F2C42FC8D532000335E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33D3F2C32FC8D532000335E2 /* Assets.xcassets */; };
+		33D3F2C72FC8D532000335E2 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33D3F2C62FC8D532000335E2 /* Preview Assets.xcassets */; };
+		33D3F2CE2FC8D8F1000335E2 /* AppHeroVideo-1080x1920-5k.mp4 in Resources */ = {isa = PBXBuildFile; fileRef = 33D3F2CD2FC8D8F0000335E2 /* AppHeroVideo-1080x1920-5k.mp4 */; };
+		33D3F2DB2FC8D9F7000335E2 /* BPdotsVertical.otf in Resources */ = {isa = PBXBuildFile; fileRef = 33D3F2CE2FC8D9F7000335E2 /* BPdotsVertical.otf */; };
+		33D3F2DC2FC8D9F7000335E2 /* BPdotsVerticalBold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 33D3F2CF2FC8D9F7000335E2 /* BPdotsVerticalBold.otf */; };
+		33D3F2DD2FC8D9F7000335E2 /* SpaceMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 33D3F2D02FC8D9F7000335E2 /* SpaceMono-Bold.ttf */; };
+		33D3F2DE2FC8D9F7000335E2 /* SpaceMono-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 33D3F2D12FC8D9F7000335E2 /* SpaceMono-Regular.ttf */; };
+		33D3F2DF2FC8D9F7000335E2 /* Telka-Extended-Black.otf in Resources */ = {isa = PBXBuildFile; fileRef = 33D3F2D22FC8D9F7000335E2 /* Telka-Extended-Black.otf */; };
+		33D3F2E02FC8D9F7000335E2 /* Telka-Extended-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = 33D3F2D32FC8D9F7000335E2 /* Telka-Extended-Bold.otf */; };
+		33D3F2E12FC8D9F7000335E2 /* Telka-Extended-Light.otf in Resources */ = {isa = PBXBuildFile; fileRef = 33D3F2D42FC8D9F7000335E2 /* Telka-Extended-Light.otf */; };
+		33D3F2E22FC8D9F7000335E2 /* Telka-Extended-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 33D3F2D52FC8D9F7000335E2 /* Telka-Extended-Medium.otf */; };
+		33D3F2E32FC8D9F7000335E2 /* Telka-Extended-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 33D3F2D62FC8D9F7000335E2 /* Telka-Extended-Regular.otf */; };
+		33D3F2E42FC8D9F7000335E2 /* Telka-Extended-Super.otf in Resources */ = {isa = PBXBuildFile; fileRef = 33D3F2D72FC8D9F7000335E2 /* Telka-Extended-Super.otf */; };
+		33D3F2E52FC8D9F7000335E2 /* Telka-Medium.otf in Resources */ = {isa = PBXBuildFile; fileRef = 33D3F2D82FC8D9F7000335E2 /* Telka-Medium.otf */; };
+		33D3F2E62FC8D9F7000335E2 /* Telka-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = 33D3F2D92FC8D9F7000335E2 /* Telka-Regular.otf */; };
+		33D3F2E82FC8DD87000335E2 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3F2E72FC8DD87000335E2 /* OnboardingView.swift */; };
+		33D3F2EA2FC8E9B5000335E2 /* ReadingProgressMatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3F2E92FC8E9B5000335E2 /* ReadingProgressMatcher.swift */; };
+		33D3F2EC2FC8F6A0000335E2 /* PersistenceController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3F2EB2FC8F6A0000335E2 /* PersistenceController.swift */; };
+		33D3F2EE2FC8F6A0000335E2 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3F2ED2FC8F6A0000335E2 /* User.swift */; };
+		33D3F2F02FC8F6A0000335E2 /* UserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3F2EF2FC8F6A0000335E2 /* UserRepository.swift */; };
+		33D3F2F32FC8F6A0000335E2 /* Pika.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 33D3F2F22FC8F6A0000335E2 /* Pika.xcdatamodeld */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		330F5A072FC8F3E100157722 /* OnboardingStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingStore.swift; sourceTree = "<group>"; };
+		330F5A092FC8F41700157722 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
+		330F5A0B2FC8F49500157722 /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
+		330F5A0D2FC8F4FB00157722 /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
+		33D3F2BC2FC8D531000335E2 /* Pika.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pika.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		33D3F2BF2FC8D531000335E2 /* PikaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PikaApp.swift; sourceTree = "<group>"; };
+		33D3F2C12FC8D531000335E2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		33D3F2C32FC8D532000335E2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		33D3F2C62FC8D532000335E2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		33D3F2CD2FC8D8F0000335E2 /* AppHeroVideo-1080x1920-5k.mp4 */ = {isa = PBXFileReference; lastKnownFileType = file; path = "AppHeroVideo-1080x1920-5k.mp4"; sourceTree = "<group>"; };
+		33D3F2CE2FC8D9F7000335E2 /* BPdotsVertical.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BPdotsVertical.otf; sourceTree = "<group>"; };
+		33D3F2CF2FC8D9F7000335E2 /* BPdotsVerticalBold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = BPdotsVerticalBold.otf; sourceTree = "<group>"; };
+		33D3F2D02FC8D9F7000335E2 /* SpaceMono-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceMono-Bold.ttf"; sourceTree = "<group>"; };
+		33D3F2D12FC8D9F7000335E2 /* SpaceMono-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SpaceMono-Regular.ttf"; sourceTree = "<group>"; };
+		33D3F2D22FC8D9F7000335E2 /* Telka-Extended-Black.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Telka-Extended-Black.otf"; sourceTree = "<group>"; };
+		33D3F2D32FC8D9F7000335E2 /* Telka-Extended-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Telka-Extended-Bold.otf"; sourceTree = "<group>"; };
+		33D3F2D42FC8D9F7000335E2 /* Telka-Extended-Light.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Telka-Extended-Light.otf"; sourceTree = "<group>"; };
+		33D3F2D52FC8D9F7000335E2 /* Telka-Extended-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Telka-Extended-Medium.otf"; sourceTree = "<group>"; };
+		33D3F2D62FC8D9F7000335E2 /* Telka-Extended-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Telka-Extended-Regular.otf"; sourceTree = "<group>"; };
+		33D3F2D72FC8D9F7000335E2 /* Telka-Extended-Super.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Telka-Extended-Super.otf"; sourceTree = "<group>"; };
+		33D3F2D82FC8D9F7000335E2 /* Telka-Medium.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Telka-Medium.otf"; sourceTree = "<group>"; };
+		33D3F2D92FC8D9F7000335E2 /* Telka-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Telka-Regular.otf"; sourceTree = "<group>"; };
+		33D3F2E72FC8DD87000335E2 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		33D3F2E92FC8E9B5000335E2 /* ReadingProgressMatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingProgressMatcher.swift; sourceTree = "<group>"; };
+		33D3F2EB2FC8F6A0000335E2 /* PersistenceController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistenceController.swift; sourceTree = "<group>"; };
+		33D3F2ED2FC8F6A0000335E2 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		33D3F2EF2FC8F6A0000335E2 /* UserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserRepository.swift; sourceTree = "<group>"; };
+		33D3F2F12FC8F6A0000335E2 /* Pika.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Pika.xcdatamodel; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		33D3F2B92FC8D531000335E2 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		330F5A0F2FC8F53C00157722 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				33D3F2E72FC8DD87000335E2 /* OnboardingView.swift */,
+				330F5A0D2FC8F4FB00157722 /* CameraPreviewView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		330F5A102FC8F55700157722 /* Landing page */ = {
+			isa = PBXGroup;
+			children = (
+				33D3F2C12FC8D531000335E2 /* ContentView.swift */,
+			);
+			path = "Landing page";
+			sourceTree = "<group>";
+		};
+		330F5A112FC8F56800157722 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				330F5A142FC8F5EF00157722 /* Store */,
+				330F5A0F2FC8F53C00157722 /* Views */,
+				330F5A122FC8F5AB00157722 /* Service */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		330F5A122FC8F5AB00157722 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				330F5A092FC8F41700157722 /* AudioRecorder.swift */,
+				330F5A0B2FC8F49500157722 /* CameraController.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
+		330F5A132FC8F5DA00157722 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				33D3F2EB2FC8F6A0000335E2 /* PersistenceController.swift */,
+				33D3F2ED2FC8F6A0000335E2 /* User.swift */,
+				33D3F2EF2FC8F6A0000335E2 /* UserRepository.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		330F5A142FC8F5EF00157722 /* Store */ = {
+			isa = PBXGroup;
+			children = (
+				330F5A072FC8F3E100157722 /* OnboardingStore.swift */,
+			);
+			path = Store;
+			sourceTree = "<group>";
+		};
+		33D3F2B32FC8D531000335E2 = {
+			isa = PBXGroup;
+			children = (
+				33D3F2BE2FC8D531000335E2 /* Pika */,
+				33D3F2BD2FC8D531000335E2 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		33D3F2BD2FC8D531000335E2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				33D3F2BC2FC8D531000335E2 /* Pika.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		33D3F2BE2FC8D531000335E2 /* Pika */ = {
+			isa = PBXGroup;
+			children = (
+				33D3F2DA2FC8D9F7000335E2 /* fonts */,
+				33D3F2BF2FC8D531000335E2 /* PikaApp.swift */,
+				330F5A102FC8F55700157722 /* Landing page */,
+				330F5A112FC8F56800157722 /* Onboarding */,
+				33D3F2CD2FC8D8F0000335E2 /* AppHeroVideo-1080x1920-5k.mp4 */,
+				33D3F2C32FC8D532000335E2 /* Assets.xcassets */,
+				33D3F2C52FC8D532000335E2 /* Preview Content */,
+				33D3F2E92FC8E9B5000335E2 /* ReadingProgressMatcher.swift */,
+				330F5A132FC8F5DA00157722 /* Data */,
+				33D3F2F22FC8F6A0000335E2 /* Pika.xcdatamodeld */,
+			);
+			path = Pika;
+			sourceTree = "<group>";
+		};
+		33D3F2C52FC8D532000335E2 /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				33D3F2C62FC8D532000335E2 /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		33D3F2DA2FC8D9F7000335E2 /* fonts */ = {
+			isa = PBXGroup;
+			children = (
+				33D3F2CE2FC8D9F7000335E2 /* BPdotsVertical.otf */,
+				33D3F2CF2FC8D9F7000335E2 /* BPdotsVerticalBold.otf */,
+				33D3F2D02FC8D9F7000335E2 /* SpaceMono-Bold.ttf */,
+				33D3F2D12FC8D9F7000335E2 /* SpaceMono-Regular.ttf */,
+				33D3F2D22FC8D9F7000335E2 /* Telka-Extended-Black.otf */,
+				33D3F2D32FC8D9F7000335E2 /* Telka-Extended-Bold.otf */,
+				33D3F2D42FC8D9F7000335E2 /* Telka-Extended-Light.otf */,
+				33D3F2D52FC8D9F7000335E2 /* Telka-Extended-Medium.otf */,
+				33D3F2D62FC8D9F7000335E2 /* Telka-Extended-Regular.otf */,
+				33D3F2D72FC8D9F7000335E2 /* Telka-Extended-Super.otf */,
+				33D3F2D82FC8D9F7000335E2 /* Telka-Medium.otf */,
+				33D3F2D92FC8D9F7000335E2 /* Telka-Regular.otf */,
+			);
+			path = fonts;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		33D3F2BB2FC8D531000335E2 /* Pika */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 33D3F2CA2FC8D532000335E2 /* Build configuration list for PBXNativeTarget "Pika" */;
+			buildPhases = (
+				33D3F2B82FC8D531000335E2 /* Sources */,
+				33D3F2B92FC8D531000335E2 /* Frameworks */,
+				33D3F2BA2FC8D531000335E2 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Pika;
+			productName = Pika;
+			productReference = 33D3F2BC2FC8D531000335E2 /* Pika.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		33D3F2B42FC8D531000335E2 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					33D3F2BB2FC8D531000335E2 = {
+						CreatedOnToolsVersion = 15.4;
+					};
+				};
+			};
+			buildConfigurationList = 33D3F2B72FC8D531000335E2 /* Build configuration list for PBXProject "Pika" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 33D3F2B32FC8D531000335E2;
+			productRefGroup = 33D3F2BD2FC8D531000335E2 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				33D3F2BB2FC8D531000335E2 /* Pika */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		33D3F2BA2FC8D531000335E2 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				33D3F2DF2FC8D9F7000335E2 /* Telka-Extended-Black.otf in Resources */,
+				33D3F2C72FC8D532000335E2 /* Preview Assets.xcassets in Resources */,
+				33D3F2DE2FC8D9F7000335E2 /* SpaceMono-Regular.ttf in Resources */,
+				33D3F2E12FC8D9F7000335E2 /* Telka-Extended-Light.otf in Resources */,
+				33D3F2CE2FC8D8F1000335E2 /* AppHeroVideo-1080x1920-5k.mp4 in Resources */,
+				33D3F2E62FC8D9F7000335E2 /* Telka-Regular.otf in Resources */,
+				33D3F2E52FC8D9F7000335E2 /* Telka-Medium.otf in Resources */,
+				33D3F2DD2FC8D9F7000335E2 /* SpaceMono-Bold.ttf in Resources */,
+				33D3F2DC2FC8D9F7000335E2 /* BPdotsVerticalBold.otf in Resources */,
+				33D3F2E22FC8D9F7000335E2 /* Telka-Extended-Medium.otf in Resources */,
+				33D3F2E42FC8D9F7000335E2 /* Telka-Extended-Super.otf in Resources */,
+				33D3F2E32FC8D9F7000335E2 /* Telka-Extended-Regular.otf in Resources */,
+				33D3F2DB2FC8D9F7000335E2 /* BPdotsVertical.otf in Resources */,
+				33D3F2C42FC8D532000335E2 /* Assets.xcassets in Resources */,
+				33D3F2E02FC8D9F7000335E2 /* Telka-Extended-Bold.otf in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		33D3F2B82FC8D531000335E2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				33D3F2E82FC8DD87000335E2 /* OnboardingView.swift in Sources */,
+				33D3F2EA2FC8E9B5000335E2 /* ReadingProgressMatcher.swift in Sources */,
+				33D3F2EC2FC8F6A0000335E2 /* PersistenceController.swift in Sources */,
+				33D3F2EE2FC8F6A0000335E2 /* User.swift in Sources */,
+				330F5A0A2FC8F41700157722 /* AudioRecorder.swift in Sources */,
+				33D3F2F02FC8F6A0000335E2 /* UserRepository.swift in Sources */,
+				330F5A0C2FC8F49500157722 /* CameraController.swift in Sources */,
+				33D3F2F32FC8F6A0000335E2 /* Pika.xcdatamodeld in Sources */,
+				330F5A0E2FC8F4FB00157722 /* CameraPreviewView.swift in Sources */,
+				33D3F2C22FC8D531000335E2 /* ContentView.swift in Sources */,
+				33D3F2C02FC8D531000335E2 /* PikaApp.swift in Sources */,
+				330F5A082FC8F3E100157722 /* OnboardingStore.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		33D3F2C82FC8D532000335E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		33D3F2C92FC8D532000335E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		33D3F2CB2FC8D532000335E2 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Pika/Preview Content\"";
+				DEVELOPMENT_TEAM = A3KV3V94JT;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Pika uses the camera to capture your onboarding photo.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Pika uses the microphone to record your onboarding voice sample.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Pika uses speech recognition to highlight the text as you read.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = MX.com.Pika;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		33D3F2CC2FC8D532000335E2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Pika/Preview Content\"";
+				DEVELOPMENT_TEAM = A3KV3V94JT;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_NSCameraUsageDescription = "Pika uses the camera to capture your onboarding photo.";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Pika uses the microphone to record your onboarding voice sample.";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Pika uses speech recognition to highlight the text as you read.";
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = MX.com.Pika;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		33D3F2B72FC8D531000335E2 /* Build configuration list for PBXProject "Pika" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				33D3F2C82FC8D532000335E2 /* Debug */,
+				33D3F2C92FC8D532000335E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		33D3F2CA2FC8D532000335E2 /* Build configuration list for PBXNativeTarget "Pika" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				33D3F2CB2FC8D532000335E2 /* Debug */,
+				33D3F2CC2FC8D532000335E2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		33D3F2F22FC8F6A0000335E2 /* Pika.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				33D3F2F12FC8F6A0000335E2 /* Pika.xcdatamodel */,
+			);
+			currentVersion = 33D3F2F12FC8F6A0000335E2 /* Pika.xcdatamodel */;
+			path = Pika.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = 33D3F2B42FC8D531000335E2 /* Project object */;
+}
