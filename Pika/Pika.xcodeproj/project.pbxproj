@@ -45,6 +45,7 @@
 		330F5A0D2FC8F4FB00157722 /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
 		337789642FCA14540010CB62 /* PikaColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PikaColors.swift; sourceTree = "<group>"; };
 		337789662FCA2E3B0010CB62 /* PikaFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PikaFonts.swift; sourceTree = "<group>"; };
+		3377896D2FCA50000010CB62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		33D3F2BC2FC8D531000335E2 /* Pika.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pika.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33D3F2BF2FC8D531000335E2 /* PikaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PikaApp.swift; sourceTree = "<group>"; };
 		33D3F2C12FC8D531000335E2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -121,9 +122,9 @@
 		330F5A132FC8F5DA00157722 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				33D3F2EB2FC8F6A0000335E2 /* PersistenceController.swift */,
-				33D3F2ED2FC8F6A0000335E2 /* User.swift */,
-				33D3F2EF2FC8F6A0000335E2 /* UserRepository.swift */,
+				3377896C2FCA2F1C0010CB62 /* DataAccess */,
+				3377896B2FCA2EFB0010CB62 /* Entity */,
+				3377896A2FCA2EF00010CB62 /* Repository */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -134,6 +135,50 @@
 				330F5A072FC8F3E100157722 /* OnboardingStore.swift */,
 			);
 			path = Store;
+			sourceTree = "<group>";
+		};
+		337789682FCA2E820010CB62 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				33D3F2DA2FC8D9F7000335E2 /* fonts */,
+				33D3F2CD2FC8D8F0000335E2 /* AppHeroVideo-1080x1920-5k.mp4 */,
+				337789642FCA14540010CB62 /* PikaColors.swift */,
+				337789662FCA2E3B0010CB62 /* PikaFonts.swift */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		337789692FCA2ED60010CB62 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				330F5A102FC8F55700157722 /* Landing page */,
+				330F5A112FC8F56800157722 /* Onboarding */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		3377896A2FCA2EF00010CB62 /* Repository */ = {
+			isa = PBXGroup;
+			children = (
+				33D3F2EF2FC8F6A0000335E2 /* UserRepository.swift */,
+			);
+			path = Repository;
+			sourceTree = "<group>";
+		};
+		3377896B2FCA2EFB0010CB62 /* Entity */ = {
+			isa = PBXGroup;
+			children = (
+				33D3F2ED2FC8F6A0000335E2 /* User.swift */,
+			);
+			path = Entity;
+			sourceTree = "<group>";
+		};
+		3377896C2FCA2F1C0010CB62 /* DataAccess */ = {
+			isa = PBXGroup;
+			children = (
+				33D3F2EB2FC8F6A0000335E2 /* PersistenceController.swift */,
+			);
+			path = DataAccess;
 			sourceTree = "<group>";
 		};
 		33D3F2B32FC8D531000335E2 = {
@@ -155,18 +200,15 @@
 		33D3F2BE2FC8D531000335E2 /* Pika */ = {
 			isa = PBXGroup;
 			children = (
-				33D3F2DA2FC8D9F7000335E2 /* fonts */,
+				3377896D2FCA50000010CB62 /* Info.plist */,
 				33D3F2BF2FC8D531000335E2 /* PikaApp.swift */,
-				330F5A102FC8F55700157722 /* Landing page */,
-				330F5A112FC8F56800157722 /* Onboarding */,
-				33D3F2CD2FC8D8F0000335E2 /* AppHeroVideo-1080x1920-5k.mp4 */,
+				337789692FCA2ED60010CB62 /* Components */,
+				330F5A132FC8F5DA00157722 /* Data */,
 				33D3F2C32FC8D532000335E2 /* Assets.xcassets */,
 				33D3F2C52FC8D532000335E2 /* Preview Content */,
 				33D3F2E92FC8E9B5000335E2 /* ReadingProgressMatcher.swift */,
-				330F5A132FC8F5DA00157722 /* Data */,
 				33D3F2F22FC8F6A0000335E2 /* Pika.xcdatamodeld */,
-				337789642FCA14540010CB62 /* PikaColors.swift */,
-				337789662FCA2E3B0010CB62 /* PikaFonts.swift */,
+				337789682FCA2E820010CB62 /* Resources */,
 			);
 			path = Pika;
 			sourceTree = "<group>";
@@ -430,15 +472,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Pika/Preview Content\"";
 				DEVELOPMENT_TEAM = A3KV3V94JT;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Pika uses the camera to capture your onboarding photo.";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Pika uses the microphone to record your onboarding voice sample.";
-				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Pika uses speech recognition to highlight the text as you read.";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Pika/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -462,15 +497,8 @@
 				DEVELOPMENT_ASSET_PATHS = "\"Pika/Preview Content\"";
 				DEVELOPMENT_TEAM = A3KV3V94JT;
 				ENABLE_PREVIEWS = YES;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_KEY_NSCameraUsageDescription = "Pika uses the camera to capture your onboarding photo.";
-				INFOPLIST_KEY_NSMicrophoneUsageDescription = "Pika uses the microphone to record your onboarding voice sample.";
-				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "Pika uses speech recognition to highlight the text as you read.";
-				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = Pika/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

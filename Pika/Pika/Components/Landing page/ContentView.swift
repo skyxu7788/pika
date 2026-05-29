@@ -8,7 +8,6 @@
 import SwiftUI
 import AVFoundation
 import AVKit
-import CoreText
 import CoreData
 import UIKit
 
@@ -19,10 +18,6 @@ struct ContentView: View {
     @State private var phoneNumber = ""
     @State private var onboardingStore: OnboardingStore?
     @State private var authError: String?
-
-    init() {
-        AppFonts.register()
-    }
 
     var body: some View {
         GeometryReader { proxy in
@@ -313,32 +308,6 @@ private final class PlayerView: UIView {
 
     var playerLayer: AVPlayerLayer {
         layer as! AVPlayerLayer
-    }
-}
-
-private enum AppFonts {
-    private static var didRegister = false
-
-    static func register() {
-        guard !didRegister else { return }
-        didRegister = true
-
-        fontURLs().forEach { url in
-            CTFontManagerRegisterFontsForURL(url as CFURL, .process, nil)
-        }
-    }
-
-    private static func fontURLs() -> [URL] {
-        let fileExtensions = ["otf", "ttf"]
-
-        return fileExtensions
-            .flatMap { fileExtension in
-                Bundle.main.urls(forResourcesWithExtension: fileExtension, subdirectory: nil) ?? []
-            }
-            .reduce(into: [URL]()) { urls, url in
-                guard !urls.contains(url) else { return }
-                urls.append(url)
-            }
     }
 }
 
