@@ -32,10 +32,16 @@ struct UserRepository {
         user.userId = UUID().uuidString
         user.phoneNumber = normalizedPhone
         user.email = normalizedEmail
+        user.location = "San Francisco, CA"
+        user.status = "Alive"
         user.createdAt = now
         user.updatedAt = now
         try saveIfNeeded()
         return user
+    }
+
+    func fetchUser(userId: String) throws -> User? {
+        try fetchUser(matching: "userId", value: userId)
     }
 
     func hasCompletedOnboarding(_ user: User) -> Bool {

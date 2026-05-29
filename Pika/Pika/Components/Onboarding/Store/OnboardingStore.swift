@@ -13,6 +13,7 @@ import AVFoundation
 final class OnboardingStore: ObservableObject, Identifiable {
     let id = UUID()
     let user: User
+    let completeStepStore: CompleteStepStore
 
     @Published var currentStep: OnboardingStep
     @Published var isRecording = false
@@ -26,10 +27,11 @@ final class OnboardingStore: ObservableObject, Identifiable {
     private var audioPlayer: AVAudioPlayer?
     private var pendingAudioData: Data?
 
-    init(user: User, context: NSManagedObjectContext, initialStep: OnboardingStep) {
+    init(user: User, repository: UserRepository, initialStep: OnboardingStep) {
         self.user = user
         self.currentStep = initialStep
-        self.repository = UserRepository(context: context)
+        self.repository = repository
+        self.completeStepStore = CompleteStepStore(userId: user.userId, repository: repository)
     }
 
     func goBack() -> Bool {

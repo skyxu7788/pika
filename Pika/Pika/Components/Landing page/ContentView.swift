@@ -21,42 +21,36 @@ struct ContentView: View {
     @FocusState private var isPhoneNumberFocused: Bool
 
     var body: some View {
-        GeometryReader { proxy in
+        ZStack(alignment: .bottom) {
             ZStack {
-                ZStack {
-                    Color(red: 0.96, green: 0.96, blue: 0.95)
+                Color(red: 0.96, green: 0.96, blue: 0.95)
 
-                    LoopingVideoPlayer(player: heroVideo.player)
-                }
-                .contentShape(Rectangle())
-                .onTapGesture {
+                LoopingVideoPlayer(player: heroVideo.player)
+            }
+            .contentShape(Rectangle())
+            .onTapGesture {
+                isPhoneNumberFocused = false
+            }
+            .ignoresSafeArea()
+
+            AuthPanel(phoneNumberFocused: $isPhoneNumberFocused)
+                .environment(\.authActions, AuthActions(
+                    phoneNumber: $phoneNumber,
+                    authError: authError,
+                    continueWithPhone: { openOnboarding(phoneNumber: phoneNumber, email: nil) },
+                    continueWithGoogle: { openOnboarding(phoneNumber: nil, email: "google@pika.local") },
+                    continueWithEmail: { openOnboarding(phoneNumber: nil, email: "email@pika.local") }
+                ))
+                .padding(.horizontal, 28)
+                .padding(.bottom, 28)
+        }
+        .simultaneousGesture(
+            DragGesture(minimumDistance: 20)
+                .onEnded { value in
+                    guard value.translation.height > 20 else { return }
                     isPhoneNumberFocused = false
                 }
-                .ignoresSafeArea()
-
-                VStack(spacing: 0) {
-                    Spacer(minLength: max(285, proxy.size.height * 0.48))
-
-                    AuthPanel(phoneNumberFocused: $isPhoneNumberFocused)
-                        .environment(\.authActions, AuthActions(
-                            phoneNumber: $phoneNumber,
-                            authError: authError,
-                            continueWithPhone: { openOnboarding(phoneNumber: phoneNumber, email: nil) },
-                            continueWithGoogle: { openOnboarding(phoneNumber: nil, email: "google@pika.local") },
-                            continueWithEmail: { openOnboarding(phoneNumber: nil, email: "email@pika.local") }
-                        ))
-                        .padding(.horizontal, 28)
-                        .padding(.bottom, max(28, proxy.safeAreaInsets.bottom + 18))
-                }
-            }
-            .simultaneousGesture(
-                DragGesture(minimumDistance: 20)
-                    .onEnded { value in
-                        guard value.translation.height > 20 else { return }
-                        isPhoneNumberFocused = false
-                    }
-            )
-        }
+        )
         .task {
             heroVideo.play()
         }
@@ -84,7 +78,7 @@ struct ContentView: View {
             let repository = UserRepository(context: managedObjectContext)
             let user = try repository.findOrCreateUser(phoneNumber: phoneNumber, email: email)
             let step = repository.nextStep(for: user)
-            onboardingStore = OnboardingStore(user: user, context: managedObjectContext, initialStep: step)
+            onboardingStore = OnboardingStore(user: user, repository: repository, initialStep: step)
             authError = nil
             heroVideo.pause()
         } catch {
@@ -109,7 +103,7 @@ private struct AuthPanel: View {
 
                 Text("Sign up or log in below")
                     .font(PikaFonts.regular(size: 17, relativeTo: .body))
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(PikaColors.contentDarkTertiary)
             }
             .padding(.bottom, 8)
 
@@ -134,7 +128,7 @@ private struct AuthPanel: View {
 
             Text("Sign in to agree to terms")
                 .font(PikaFonts.regular(size: 14, relativeTo: .footnote))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(PikaColors.contentDarkTertiary)
                 .padding(.top, 24)
         }
     }
@@ -152,7 +146,6 @@ private struct PhoneNumberField: View {
 
                 Text("+1")
                     .font(PikaFonts.regular(size: 16, relativeTo: .body))
-                    .foregroundStyle(.secondary)
             }
             .frame(width: 76, height: 56)
             .background(
@@ -165,7 +158,6 @@ private struct PhoneNumberField: View {
                 .keyboardType(.phonePad)
                 .textContentType(.telephoneNumber)
                 .font(PikaFonts.regular(size: 20, relativeTo: .body))
-                .foregroundStyle(.primary)
                 .tint(.black)
                 .frame(maxWidth: .infinity, minHeight: 56, alignment: .leading)
                 .onChange(of: text) { _, newValue in
@@ -177,6 +169,7 @@ private struct PhoneNumberField: View {
         }
         .padding(.horizontal, 4)
         .frame(height: 56)
+        .foregroundStyle(PikaColors.contentDarkTertiary)
         .background(
             RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .fill(.white.opacity(0.38))

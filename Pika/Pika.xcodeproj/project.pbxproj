@@ -16,6 +16,8 @@
 		3377896E2FCA3DA00010CB62 /* PhotoCaptureStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3377896D2FCA3DA00010CB62 /* PhotoCaptureStep.swift */; };
 		337789702FCA3E030010CB62 /* VoiceCaptureStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3377896F2FCA3E030010CB62 /* VoiceCaptureStep.swift */; };
 		337789722FCA3E230010CB62 /* CompleteStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337789712FCA3E230010CB62 /* CompleteStep.swift */; };
+		337789742FCA5B100010CB62 /* CompleteStepStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337789732FCA5B100010CB62 /* CompleteStepStore.swift */; };
+		337789762FCA55C30010CB62 /* CompleteStepProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337789752FCA55C30010CB62 /* CompleteStepProfile.swift */; };
 		33D3F2C02FC8D531000335E2 /* PikaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3F2BF2FC8D531000335E2 /* PikaApp.swift */; };
 		33D3F2C22FC8D531000335E2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3F2C12FC8D531000335E2 /* ContentView.swift */; };
 		33D3F2C42FC8D532000335E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33D3F2C32FC8D532000335E2 /* Assets.xcassets */; };
@@ -52,6 +54,8 @@
 		3377896D2FCA50000010CB62 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3377896F2FCA3E030010CB62 /* VoiceCaptureStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceCaptureStep.swift; sourceTree = "<group>"; };
 		337789712FCA3E230010CB62 /* CompleteStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteStep.swift; sourceTree = "<group>"; };
+		337789732FCA5B100010CB62 /* CompleteStepStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteStepStore.swift; sourceTree = "<group>"; };
+		337789752FCA55C30010CB62 /* CompleteStepProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteStepProfile.swift; sourceTree = "<group>"; };
 		33D3F2BC2FC8D531000335E2 /* Pika.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pika.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33D3F2BF2FC8D531000335E2 /* PikaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PikaApp.swift; sourceTree = "<group>"; };
 		33D3F2C12FC8D531000335E2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -115,6 +119,7 @@
 				330F5A142FC8F5EF00157722 /* Store */,
 				330F5A0F2FC8F53C00157722 /* Views */,
 				330F5A122FC8F5AB00157722 /* Service */,
+				337789772FCA55C70010CB62 /* DataModel */,
 			);
 			path = Onboarding;
 			sourceTree = "<group>";
@@ -142,6 +147,7 @@
 			isa = PBXGroup;
 			children = (
 				330F5A072FC8F3E100157722 /* OnboardingStore.swift */,
+				337789732FCA5B100010CB62 /* CompleteStepStore.swift */,
 			);
 			path = Store;
 			sourceTree = "<group>";
@@ -149,6 +155,7 @@
 		337789682FCA2E820010CB62 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				33D3F2C32FC8D532000335E2 /* Assets.xcassets */,
 				33D3F2DA2FC8D9F7000335E2 /* fonts */,
 				33D3F2CD2FC8D8F0000335E2 /* AppHeroVideo-1080x1920-5k.mp4 */,
 				337789642FCA14540010CB62 /* PikaColors.swift */,
@@ -185,9 +192,34 @@
 		3377896C2FCA2F1C0010CB62 /* DataAccess */ = {
 			isa = PBXGroup;
 			children = (
-				33D3F2EB2FC8F6A0000335E2 /* PersistenceController.swift */,
+				337789732FCA4B640010CB62 /* Coredata */,
 			);
 			path = DataAccess;
+			sourceTree = "<group>";
+		};
+		337789732FCA4B640010CB62 /* Coredata */ = {
+			isa = PBXGroup;
+			children = (
+				33D3F2EB2FC8F6A0000335E2 /* PersistenceController.swift */,
+				337789742FCA4B7E0010CB62 /* Database */,
+			);
+			path = Coredata;
+			sourceTree = "<group>";
+		};
+		337789742FCA4B7E0010CB62 /* Database */ = {
+			isa = PBXGroup;
+			children = (
+				33D3F2F22FC8F6A0000335E2 /* Pika.xcdatamodeld */,
+			);
+			path = Database;
+			sourceTree = "<group>";
+		};
+		337789772FCA55C70010CB62 /* DataModel */ = {
+			isa = PBXGroup;
+			children = (
+				337789752FCA55C30010CB62 /* CompleteStepProfile.swift */,
+			);
+			path = DataModel;
 			sourceTree = "<group>";
 		};
 		33D3F2B32FC8D531000335E2 = {
@@ -213,10 +245,8 @@
 				33D3F2BF2FC8D531000335E2 /* PikaApp.swift */,
 				337789692FCA2ED60010CB62 /* Components */,
 				330F5A132FC8F5DA00157722 /* Data */,
-				33D3F2C32FC8D532000335E2 /* Assets.xcassets */,
 				33D3F2C52FC8D532000335E2 /* Preview Content */,
 				33D3F2E92FC8E9B5000335E2 /* ReadingProgressMatcher.swift */,
-				33D3F2F22FC8F6A0000335E2 /* Pika.xcdatamodeld */,
 				337789682FCA2E820010CB62 /* Resources */,
 			);
 			path = Pika;
@@ -334,6 +364,7 @@
 			files = (
 				33D3F2E82FC8DD87000335E2 /* OnboardingView.swift in Sources */,
 				33D3F2EA2FC8E9B5000335E2 /* ReadingProgressMatcher.swift in Sources */,
+				337789762FCA55C30010CB62 /* CompleteStepProfile.swift in Sources */,
 				33D3F2EC2FC8F6A0000335E2 /* PersistenceController.swift in Sources */,
 				33D3F2EE2FC8F6A0000335E2 /* User.swift in Sources */,
 				337789722FCA3E230010CB62 /* CompleteStep.swift in Sources */,
@@ -348,6 +379,7 @@
 				33D3F2C22FC8D531000335E2 /* ContentView.swift in Sources */,
 				33D3F2C02FC8D531000335E2 /* PikaApp.swift in Sources */,
 				330F5A082FC8F3E100157722 /* OnboardingStore.swift in Sources */,
+				337789742FCA5B100010CB62 /* CompleteStepStore.swift in Sources */,
 				3377896E2FCA3DA00010CB62 /* PhotoCaptureStep.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -4,8 +4,10 @@
         <attribute name="audioData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="email" optional="YES" attributeType="String"/>
+        <attribute name="location" attributeType="String" defaultValueString="San Francisco, CA"/>
         <attribute name="phoneNumber" optional="YES" attributeType="String"/>
         <attribute name="photoData" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
+        <attribute name="status" attributeType="String" defaultValueString="Alive"/>
         <attribute name="updatedAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="userId" attributeType="String"/>
     </entity>

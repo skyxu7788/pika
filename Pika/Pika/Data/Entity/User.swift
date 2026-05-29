@@ -15,6 +15,8 @@ final class User: NSManagedObject {
     @NSManaged var email: String?
     @NSManaged var photoData: Data?
     @NSManaged var audioData: Data?
+    @NSManaged var location: String
+    @NSManaged var status: String
     @NSManaged var createdAt: Date
     @NSManaged var updatedAt: Date
 }

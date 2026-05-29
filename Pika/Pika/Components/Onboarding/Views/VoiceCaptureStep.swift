@@ -149,12 +149,14 @@ struct VoiceCaptureStep_Previews: PreviewProvider {
         let controller = PersistenceController(inMemory: true)
         let user = User(context: controller.container.viewContext)
         user.userId = UUID().uuidString
+        user.location = "San Francisco, CA"
+        user.status = "Alive"
         user.createdAt = Date()
         user.updatedAt = Date()
 
         let store = OnboardingStore(
             user: user,
-            context: controller.container.viewContext,
+            repository: UserRepository(context: controller.container.viewContext),
             initialStep: .voice
         )
         store.transcript = transcript

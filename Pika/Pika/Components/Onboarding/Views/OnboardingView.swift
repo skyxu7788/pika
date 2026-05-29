@@ -41,19 +41,21 @@ struct OnboardingView: View {
                 VoiceCaptureStep(store: store)
                     .transition(.opacity)
             case .complete:
-                CompleteStep()
+                CompleteStep(store: store.completeStepStore)
                     .transition(.opacity)
             }
 
-            OnboardingNavigationBar(
-                progress: store.currentStep.progress,
-                backAction: {
-                    if !store.goBack() {
-                        onDismiss()
+            if store.currentStep != .complete {
+                OnboardingNavigationBar(
+                    progress: store.currentStep.progress,
+                    backAction: {
+                        if !store.goBack() {
+                            onDismiss()
+                        }
                     }
-                }
-            )
-            .padding(.top, 18)
+                )
+                .padding(.top, 18)
+            }
         }
         .animation(.easeInOut(duration: 0.2), value: store.currentStep.progress)
         .background(PikaColors.onboardingBackground)
@@ -114,11 +116,17 @@ struct OnboardingView_Previews: PreviewProvider {
         let controller = PersistenceController(inMemory: true)
         let user = User(context: controller.container.viewContext)
         user.userId = UUID().uuidString
+        user.location = "San Francisco, CA"
+        user.status = "Alive"
         user.createdAt = Date()
         user.updatedAt = Date()
 
         return OnboardingView(
-            store: OnboardingStore(user: user, context: controller.container.viewContext, initialStep: .voice),
+            store: OnboardingStore(
+                user: user,
+                repository: UserRepository(context: controller.container.viewContext),
+                initialStep: .voice
+            ),
             onDismiss: {}
         )
     }
