@@ -16,6 +16,7 @@ final class AudioRecorder {
     private var audioFile: AVAudioFile?
     private var recognitionRequest: SFSpeechAudioBufferRecognitionRequest?
     private var recognitionTask: SFSpeechRecognitionTask?
+    private var recognitionSessionID: UUID?
     private var recordingURL: URL?
     private var didInstallTap = false
     private var debugBufferCount = 0
@@ -69,8 +70,12 @@ final class AudioRecorder {
         }
 
         recognitionRequest = request
+        let sessionID = UUID()
+        recognitionSessionID = sessionID
 
-        recognitionTask = speechRecognizer.recognitionTask(with: request) { result, error in
+        recognitionTask = speechRecognizer.recognitionTask(with: request) { [weak self] result, error in
+            guard self?.recognitionSessionID == sessionID else { return }
+
             if let transcript = result?.bestTranscription.formattedString, !transcript.isEmpty {
                 print("speech transcript: \(transcript)")
                 onTranscript(transcript)
@@ -134,6 +139,8 @@ final class AudioRecorder {
     }
 
     private func stopEngine() {
+        recognitionSessionID = nil
+
         if didInstallTap {
             audioEngine.inputNode.removeTap(onBus: 0)
             didInstallTap = false

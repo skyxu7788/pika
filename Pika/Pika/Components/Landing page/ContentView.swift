@@ -18,20 +18,26 @@ struct ContentView: View {
     @State private var phoneNumber = ""
     @State private var onboardingStore: OnboardingStore?
     @State private var authError: String?
+    @FocusState private var isPhoneNumberFocused: Bool
 
     var body: some View {
         GeometryReader { proxy in
             ZStack {
-                Color(red: 0.96, green: 0.96, blue: 0.95)
-                    .ignoresSafeArea()
+                ZStack {
+                    Color(red: 0.96, green: 0.96, blue: 0.95)
 
-                LoopingVideoPlayer(player: heroVideo.player)
-                    .ignoresSafeArea()
+                    LoopingVideoPlayer(player: heroVideo.player)
+                }
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    isPhoneNumberFocused = false
+                }
+                .ignoresSafeArea()
 
                 VStack(spacing: 0) {
                     Spacer(minLength: max(285, proxy.size.height * 0.48))
 
-                    AuthPanel()
+                    AuthPanel(phoneNumberFocused: $isPhoneNumberFocused)
                         .environment(\.authActions, AuthActions(
                             phoneNumber: $phoneNumber,
                             authError: authError,
@@ -43,6 +49,13 @@ struct ContentView: View {
                         .padding(.bottom, max(28, proxy.safeAreaInsets.bottom + 18))
                 }
             }
+            .simultaneousGesture(
+                DragGesture(minimumDistance: 20)
+                    .onEnded { value in
+                        guard value.translation.height > 20 else { return }
+                        isPhoneNumberFocused = false
+                    }
+            )
         }
         .task {
             heroVideo.play()
@@ -82,6 +95,7 @@ struct ContentView: View {
 
 private struct AuthPanel: View {
     @Environment(\.authActions) private var authActions
+    let phoneNumberFocused: FocusState<Bool>.Binding
 
     var body: some View {
         VStack(spacing: 14) {
@@ -99,7 +113,7 @@ private struct AuthPanel: View {
             }
             .padding(.bottom, 8)
 
-            PhoneNumberField(text: authActions.phoneNumber)
+            PhoneNumberField(text: authActions.phoneNumber, phoneNumberFocused: phoneNumberFocused)
 
             ContinueButton()
 
@@ -128,6 +142,7 @@ private struct AuthPanel: View {
 
 private struct PhoneNumberField: View {
     @Binding var text: String
+    let phoneNumberFocused: FocusState<Bool>.Binding
 
     var body: some View {
         HStack(spacing: 14) {
@@ -146,11 +161,19 @@ private struct PhoneNumberField: View {
             )
 
             TextField("Phone number", text: $text)
+                .focused(phoneNumberFocused)
                 .keyboardType(.phonePad)
                 .textContentType(.telephoneNumber)
                 .font(PikaFonts.regular(size: 20, relativeTo: .body))
                 .foregroundStyle(.primary)
                 .tint(.black)
+                .frame(maxWidth: .infinity, minHeight: 56, alignment: .leading)
+                .onChange(of: text) { _, newValue in
+                    let digitCount = newValue.filter(\.isNumber).count
+                    if digitCount >= 10 {
+                        phoneNumberFocused.wrappedValue = false
+                    }
+                }
         }
         .padding(.horizontal, 4)
         .frame(height: 56)
@@ -159,6 +182,10 @@ private struct PhoneNumberField: View {
                 .fill(.white.opacity(0.38))
                 .stroke(.black.opacity(0.24), lineWidth: 1.2)
         )
+        .contentShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+        .onTapGesture {
+            phoneNumberFocused.wrappedValue = true
+        }
     }
 }
 

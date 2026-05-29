@@ -25,7 +25,6 @@ final class OnboardingStore: ObservableObject, Identifiable {
     private let audioRecorder = AudioRecorder()
     private var audioPlayer: AVAudioPlayer?
     private var pendingAudioData: Data?
-    private var reachedCompleteInSession = false
 
     init(user: User, context: NSManagedObjectContext, initialStep: OnboardingStep) {
         self.user = user
@@ -41,7 +40,7 @@ final class OnboardingStore: ObservableObject, Identifiable {
             currentStep = .photo
             return true
         case .complete:
-            guard reachedCompleteInSession else { return false }
+            guard isVoiceReadyForReview else { return false }
             currentStep = .voice
             return true
         }
@@ -59,7 +58,7 @@ final class OnboardingStore: ObservableObject, Identifiable {
 
     func toggleRecording() {
         if isRecording {
-            errorMessage = "Read the full paragraph before continuing."
+            retryVoiceRecording()
         } else {
             startRecording()
         }
@@ -109,7 +108,6 @@ final class OnboardingStore: ObservableObject, Identifiable {
         do {
             stopPlayback()
             try repository.saveAudio(pendingAudioData, for: user)
-            reachedCompleteInSession = true
             currentStep = .complete
             errorMessage = nil
         } catch {
@@ -133,7 +131,8 @@ final class OnboardingStore: ObservableObject, Identifiable {
                     },
                     onError: { [weak self] error in
                         Task { @MainActor in
-                            self?.errorMessage = "Speech recognition is not available right now."
+                            guard let self, self.isRecording, !self.isVoiceReadyForReview else { return }
+                            self.errorMessage = "Speech recognition is not available right now."
                             print("speech recognition error: \(error)")
                         }
                     }
