@@ -24,10 +24,10 @@ enum ReadingProgressMatcher {
             let target = targetWords[targetIndex].normalized
             let spoken = spokenWords[spokenIndex].normalized
 
-            if target == spoken {
+            if wordsMatch(target, spoken) {
                 targetIndex += 1
                 spokenIndex += 1
-            } else if targetIndex > 0, targetWords[targetIndex - 1].normalized == spoken {
+            } else if targetIndex > 0, wordsMatch(targetWords[targetIndex - 1].normalized, spoken) {
                 spokenIndex += 1
             } else {
                 break
@@ -64,6 +64,45 @@ enum ReadingProgressMatcher {
 
         appendWord(from: text, start: &wordStart, end: text.endIndex, keepsRange: keepsRanges, to: &words)
         return words
+    }
+
+    private static func wordsMatch(_ target: String, _ spoken: String) -> Bool {
+        target == spoken || editDistance(target, spoken) <= allowedDistance(for: target, and: spoken)
+    }
+
+    private static func allowedDistance(for target: String, and spoken: String) -> Int {
+        min(target.count, spoken.count) >= 4 ? 1 : 0
+    }
+
+    private static func editDistance(_ first: String, _ second: String) -> Int {
+        let first = Array(first)
+        let second = Array(second)
+
+        guard !first.isEmpty else { return second.count }
+        guard !second.isEmpty else { return first.count }
+
+        var previous = Array(0...second.count)
+        var current = Array(repeating: 0, count: second.count + 1)
+
+        for firstIndex in 1...first.count {
+            current[0] = firstIndex
+
+            for secondIndex in 1...second.count {
+                if first[firstIndex - 1] == second[secondIndex - 1] {
+                    current[secondIndex] = previous[secondIndex - 1]
+                } else {
+                    current[secondIndex] = min(
+                        previous[secondIndex] + 1,
+                        current[secondIndex - 1] + 1,
+                        previous[secondIndex - 1] + 1
+                    )
+                }
+            }
+
+            swap(&previous, &current)
+        }
+
+        return previous[second.count]
     }
 
     private static func appendWord(
