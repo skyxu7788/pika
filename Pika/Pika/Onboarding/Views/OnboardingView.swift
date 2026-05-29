@@ -195,15 +195,15 @@ private struct VoiceCaptureStep: View {
                 .frame(height: 128)
 
             Text("MAKE YOUR\nAI SELF SOUND\nLIKE YOU")
-                .font(.custom("Telka-ExtendedBlack", size: 38, relativeTo: .largeTitle))
-                .fontWeight(.black)
+                .font(PikaFonts.extendedBlack(size: 37, relativeTo: .largeTitle))
+                .foregroundStyle(.black)
                 .multilineTextAlignment(.center)
-                .lineLimit(3)
-                .minimumScaleFactor(0.74)
+                .lineLimit(nil)
+                .fixedSize(horizontal: false, vertical: true)
 
             Text("Read the text below to clone your\nvoice and create an\nAI Self that talks like you.")
-                .font(.custom("Telka-Regular", size: 17, relativeTo: .body))
-                .foregroundStyle(.secondary)
+                .font(PikaFonts.regular(size: 17, relativeTo: .body))
+                .foregroundStyle(PikaColors.contentDarkTertiary)
                 .multilineTextAlignment(.center)
                 .lineSpacing(2)
                 .padding(.top, 12)
@@ -220,13 +220,38 @@ private struct VoiceCaptureStep: View {
 
             if let errorMessage = store.errorMessage {
                 Text(errorMessage)
-                    .font(.custom("Telka-Regular", size: 13, relativeTo: .caption))
+                    .font(PikaFonts.regular(size: 13, relativeTo: .caption))
                     .foregroundStyle(.red.opacity(0.8))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 28)
                     .padding(.bottom, 14)
             }
 
+            voiceControls
+                .padding(.bottom, 50)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color(red: 0.97, green: 0.96, blue: 0.94))
+    }
+
+    @ViewBuilder
+    private var voiceControls: some View {
+        if store.isVoiceReadyForReview {
+            HStack(spacing: 60) {
+                ReviewControlButton(systemName: "arrow.counterclockwise", action: store.retryVoiceRecording)
+
+                Button(action: store.confirmVoiceRecording) {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 38, weight: .bold))
+                        .foregroundStyle(.black)
+                        .frame(width: 90, height: 90)
+                        .background(Color(red: 0.78, green: 0.70, blue: 1.0), in: Circle())
+                }
+                .buttonStyle(.plain)
+
+                ReviewControlButton(systemName: "play.fill", action: store.playRecordedAudio)
+            }
+        } else {
             Button {
                 store.toggleRecording()
             } label: {
@@ -240,27 +265,29 @@ private struct VoiceCaptureStep: View {
                     }
             }
             .buttonStyle(.plain)
-            .padding(.bottom, 50)
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color(red: 0.97, green: 0.96, blue: 0.94))
     }
 
     private var readingProgressText: Text {
         let progress = ReadingProgressMatcher.progress(
-            in: Self.paragraph,
+            in: VoicePrompt.paragraph,
             transcript: store.transcript
         )
-        let remainingColor = Color(red: 0.66, green: 0.58, blue: 0.92)
+        let remainingColor = PikaColors.unrecordedPrompt
         let completedColor = Color(red: 0.37, green: 0.27, blue: 0.74)
 
+        if progress.completedWordCount >= VoicePrompt.wordCount {
+            return Text(VoicePrompt.paragraph)
+                .foregroundStyle(completedColor)
+        }
+
         guard let completedRange = progress.completedRange else {
-            return Text(Self.paragraph)
+            return Text(VoicePrompt.paragraph)
                 .foregroundStyle(remainingColor)
         }
 
-        let completed = String(Self.paragraph[completedRange])
-        let remaining = String(Self.paragraph[completedRange.upperBound...])
+        let completed = String(VoicePrompt.paragraph[completedRange])
+        let remaining = String(VoicePrompt.paragraph[completedRange.upperBound...])
 
         return Text(completed)
             .foregroundStyle(completedColor)
@@ -268,7 +295,22 @@ private struct VoiceCaptureStep: View {
             .foregroundStyle(remainingColor)
     }
 
-    private static let paragraph = "My best self is just ahead. The life I've always wanted is here. My goals are in reach. I love affirmations."
+}
+
+private struct ReviewControlButton: View {
+    let systemName: String
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            Image(systemName: systemName)
+                .font(.system(size: 30, weight: .semibold))
+                .foregroundStyle(.secondary)
+                .frame(width: 70, height: 70)
+                .background(.black.opacity(0.06), in: Circle())
+        }
+        .buttonStyle(.plain)
+    }
 }
 
 private struct CompleteStep: View {
@@ -286,7 +328,7 @@ private struct UnavailableState: View {
             Color.black
 
             Text(message)
-                .font(.custom("Telka-Regular", size: 16, relativeTo: .body))
+                .font(PikaFonts.regular(size: 16, relativeTo: .body))
                 .foregroundStyle(.white.opacity(0.86))
                 .multilineTextAlignment(.center)
                 .padding(28)

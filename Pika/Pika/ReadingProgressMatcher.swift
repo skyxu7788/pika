@@ -45,6 +45,10 @@ enum ReadingProgressMatcher {
         )
     }
 
+    static func wordCount(in text: String) -> Int {
+        words(in: text, keepsRanges: false).count
+    }
+
     private static func words(in text: String, keepsRanges: Bool) -> [Word] {
         var words: [Word] = []
         var wordStart: String.Index?

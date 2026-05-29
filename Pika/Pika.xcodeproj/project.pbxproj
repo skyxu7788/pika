@@ -11,6 +11,8 @@
 		330F5A0A2FC8F41700157722 /* AudioRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330F5A092FC8F41700157722 /* AudioRecorder.swift */; };
 		330F5A0C2FC8F49500157722 /* CameraController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330F5A0B2FC8F49500157722 /* CameraController.swift */; };
 		330F5A0E2FC8F4FB00157722 /* CameraPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 330F5A0D2FC8F4FB00157722 /* CameraPreviewView.swift */; };
+		337789652FCA14540010CB62 /* PikaColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337789642FCA14540010CB62 /* PikaColors.swift */; };
+		337789672FCA2E3B0010CB62 /* PikaFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337789662FCA2E3B0010CB62 /* PikaFonts.swift */; };
 		33D3F2C02FC8D531000335E2 /* PikaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3F2BF2FC8D531000335E2 /* PikaApp.swift */; };
 		33D3F2C22FC8D531000335E2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3F2C12FC8D531000335E2 /* ContentView.swift */; };
 		33D3F2C42FC8D532000335E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33D3F2C32FC8D532000335E2 /* Assets.xcassets */; };
@@ -41,6 +43,8 @@
 		330F5A092FC8F41700157722 /* AudioRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioRecorder.swift; sourceTree = "<group>"; };
 		330F5A0B2FC8F49500157722 /* CameraController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraController.swift; sourceTree = "<group>"; };
 		330F5A0D2FC8F4FB00157722 /* CameraPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraPreviewView.swift; sourceTree = "<group>"; };
+		337789642FCA14540010CB62 /* PikaColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PikaColors.swift; sourceTree = "<group>"; };
+		337789662FCA2E3B0010CB62 /* PikaFonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PikaFonts.swift; sourceTree = "<group>"; };
 		33D3F2BC2FC8D531000335E2 /* Pika.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pika.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33D3F2BF2FC8D531000335E2 /* PikaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PikaApp.swift; sourceTree = "<group>"; };
 		33D3F2C12FC8D531000335E2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -161,6 +165,8 @@
 				33D3F2E92FC8E9B5000335E2 /* ReadingProgressMatcher.swift */,
 				330F5A132FC8F5DA00157722 /* Data */,
 				33D3F2F22FC8F6A0000335E2 /* Pika.xcdatamodeld */,
+				337789642FCA14540010CB62 /* PikaColors.swift */,
+				337789662FCA2E3B0010CB62 /* PikaFonts.swift */,
 			);
 			path = Pika;
 			sourceTree = "<group>";
@@ -282,7 +288,9 @@
 				330F5A0A2FC8F41700157722 /* AudioRecorder.swift in Sources */,
 				33D3F2F02FC8F6A0000335E2 /* UserRepository.swift in Sources */,
 				330F5A0C2FC8F49500157722 /* CameraController.swift in Sources */,
+				337789672FCA2E3B0010CB62 /* PikaFonts.swift in Sources */,
 				33D3F2F32FC8F6A0000335E2 /* Pika.xcdatamodeld in Sources */,
+				337789652FCA14540010CB62 /* PikaColors.swift in Sources */,
 				330F5A0E2FC8F4FB00157722 /* CameraPreviewView.swift in Sources */,
 				33D3F2C22FC8D531000335E2 /* ContentView.swift in Sources */,
 				33D3F2C02FC8D531000335E2 /* PikaApp.swift in Sources */,

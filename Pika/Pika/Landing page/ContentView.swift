@@ -92,38 +92,25 @@ private struct AuthPanel: View {
         VStack(spacing: 14) {
             VStack(spacing: 8) {
                 Text("YOUR AI SELF IS\nWAITING")
-                    .font(.custom("Telka-ExtendedBlack", size: 37, relativeTo: .largeTitle))
-                    .fontWeight(.black)
+                    .font(PikaFonts.extendedBlack(size: 37, relativeTo: .largeTitle))
+                    .foregroundStyle(.black)
                     .multilineTextAlignment(.center)
-                    .lineLimit(2)
-                    .minimumScaleFactor(0.7)
-                    .lineSpacing(-2)
+                    .lineLimit(nil)
+                    .fixedSize(horizontal: false, vertical: true)
 
                 Text("Sign up or log in below")
-                    .font(.custom("Telka-Regular", size: 17, relativeTo: .body))
+                    .font(PikaFonts.regular(size: 17, relativeTo: .body))
                     .foregroundStyle(.secondary)
             }
             .padding(.bottom, 8)
 
             PhoneNumberField(text: authActions.phoneNumber)
 
-            Button(action: authActions.continueWithPhone) {
-                Text("Continue")
-                    .font(.system(size: 18, weight: .bold))
-                    .foregroundStyle(.black)
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 68)
-                    .contentShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
-            }
-            .buttonStyle(.plain)
-            .background(
-                RoundedRectangle(cornerRadius: 18, style: .continuous)
-                    .fill(Color(red: 0.78, green: 0.70, blue: 1.0))
-            )
+            ContinueButton()
 
             if let authError = authActions.authError {
                 Text(authError)
-                    .font(.custom("Telka-Regular", size: 13, relativeTo: .caption))
+                    .font(PikaFonts.regular(size: 13, relativeTo: .caption))
                     .foregroundStyle(.red.opacity(0.8))
             }
 
@@ -137,7 +124,7 @@ private struct AuthPanel: View {
             .padding(.top, 2)
 
             Text("Sign in to agree to terms")
-                .font(.custom("Telka-Regular", size: 14, relativeTo: .footnote))
+                .font(PikaFonts.regular(size: 14, relativeTo: .footnote))
                 .foregroundStyle(.secondary)
                 .padding(.top, 24)
         }
@@ -154,10 +141,10 @@ private struct PhoneNumberField: View {
                     .font(.system(size: 16))
 
                 Text("+1")
-                    .font(.custom("Telka-Regular", size: 16, relativeTo: .body))
+                    .font(PikaFonts.regular(size: 16, relativeTo: .body))
                     .foregroundStyle(.secondary)
             }
-            .frame(width: 76, height: 50)
+            .frame(width: 76, height: 56)
             .background(
                 Capsule()
                     .fill(.white.opacity(0.72))
@@ -166,7 +153,7 @@ private struct PhoneNumberField: View {
             TextField("Phone number", text: $text)
                 .keyboardType(.phonePad)
                 .textContentType(.telephoneNumber)
-                .font(.custom("Telka-Regular", size: 20, relativeTo: .body))
+                .font(PikaFonts.regular(size: 20, relativeTo: .body))
                 .foregroundStyle(.primary)
                 .tint(.black)
         }
@@ -176,6 +163,34 @@ private struct PhoneNumberField: View {
             RoundedRectangle(cornerRadius: 20, style: .continuous)
                 .fill(.white.opacity(0.38))
                 .stroke(.black.opacity(0.24), lineWidth: 1.2)
+        )
+    }
+}
+
+private struct AuthActions {
+    var phoneNumber: Binding<String>
+    var authError: String?
+    var continueWithPhone: () -> Void
+    var continueWithGoogle: () -> Void
+    var continueWithEmail: () -> Void
+}
+
+private struct ContinueButton: View {
+    @Environment(\.authActions) private var authActions
+
+    var body: some View {
+        Button(action: authActions.continueWithPhone) {
+            Text("Continue")
+                .font(.system(size: 18, weight: .bold))
+                .foregroundStyle(.black)
+                .frame(maxWidth: .infinity)
+                .frame(height: 68)
+                .contentShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
+        }
+        .buttonStyle(.plain)
+        .background(
+            RoundedRectangle(cornerRadius: 18, style: .continuous)
+                .fill(Color(red: 0.78, green: 0.70, blue: 1.0))
         )
     }
 }
@@ -214,25 +229,17 @@ private struct SocialButton: View {
                 if let systemName {
                     Image(systemName: systemName)
                         .font(.system(size: 26, weight: .bold))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(PikaColors.contentDarkTertiary)
                 } else if let text {
                     Text(text)
                         .font(.system(size: 31, weight: .bold))
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(PikaColors.contentDarkTertiary)
                 }
             }
         }
         .buttonStyle(.plain)
         .accessibilityLabel(text == "G" ? "Continue with Google" : "Continue with email")
     }
-}
-
-private struct AuthActions {
-    var phoneNumber: Binding<String>
-    var authError: String?
-    var continueWithPhone: () -> Void
-    var continueWithGoogle: () -> Void
-    var continueWithEmail: () -> Void
 }
 
 private struct AuthActionsKey: EnvironmentKey {
