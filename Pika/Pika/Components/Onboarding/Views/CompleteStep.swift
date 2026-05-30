@@ -9,12 +9,16 @@ import Foundation
 import SwiftUI
 import AVFoundation
 import UIKit
+import Photos
 
 struct CompleteStep: View {
     @StateObject private var store: CompleteStepStore
+    @State private var saveAlert: SaveIDCardAlert?
+    let onClose: () -> Void
 
-    init(store: CompleteStepStore) {
+    init(store: CompleteStepStore, onClose: @escaping () -> Void = {}) {
         _store = StateObject(wrappedValue: store)
+        self.onClose = onClose
     }
 
     var body: some View {
@@ -47,7 +51,14 @@ struct CompleteStep: View {
 
                     VStack(spacing: 14) {
                         CompleteActionButton(title: "Open Messages", systemName: "arrow.up.right", style: .primary)
-                        CompleteActionButton(title: "Share ID Card", systemName: "square.and.arrow.up", style: .secondary)
+                        CompleteActionButton(
+                            title: "Share ID Card",
+                            systemName: "square.and.arrow.up",
+                            style: .secondary,
+                            action: {
+                                saveIDCard(profile)
+                            }
+                        )
                     }
                 }
                 .padding(.horizontal, 28)
@@ -59,9 +70,10 @@ struct CompleteStep: View {
                     .padding(28)
             }
 
-            Button(action: {}) {
+            Button(action: onClose) {
                 Image(systemName: "xmark")
                     .font(.system(size: 23, weight: .medium))
+                    .foregroundColor(.black)
                     .frame(width: 62, height: 62)
                     .background {
                         RoundedRectangle(cornerRadius: 20, style: .continuous)
@@ -76,7 +88,83 @@ struct CompleteStep: View {
             .padding(.top, 26)
             .padding(.trailing, 28)
         }
+        .alert(item: $saveAlert) { alert in
+            Alert(
+                title: Text(alert.title),
+                message: Text(alert.message),
+                dismissButton: .default(Text("OK"))
+            )
+        }
     }
+
+    private func saveIDCard(_ profile: CompleteStepProfile) {
+        guard let pngURL = renderedIDCardPNGURL(for: profile) else {
+            saveAlert = SaveIDCardAlert(
+                title: "Could Not Save",
+                message: "The ID card image could not be created."
+            )
+            return
+        }
+
+        PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
+            guard status == .authorized || status == .limited else {
+                try? FileManager.default.removeItem(at: pngURL)
+
+                DispatchQueue.main.async {
+                    saveAlert = SaveIDCardAlert(
+                        title: "Photos Access Needed",
+                        message: "Allow photo library access to save your ID card."
+                    )
+                }
+                return
+            }
+
+            PHPhotoLibrary.shared().performChanges {
+                PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: pngURL)
+            } completionHandler: { success, _ in
+                try? FileManager.default.removeItem(at: pngURL)
+
+                DispatchQueue.main.async {
+                    saveAlert = SaveIDCardAlert(
+                        title: success ? "Saved" : "Could Not Save",
+                        message: success ? "Your ID card was saved to Photos." : "Please try saving your ID card again."
+                    )
+                }
+            }
+        }
+    }
+
+    private func renderedIDCardPNGURL(for profile: CompleteStepProfile) -> URL? {
+        let renderer = ImageRenderer(
+            content: PikaIDCardView(profile: profile)
+                .frame(width: 250, height: 450)
+                .padding(32)
+                .background(Color.clear)
+        )
+        renderer.scale = UIScreen.main.scale
+
+        guard let image = renderer.uiImage,
+              let pngData = image.pngData() else {
+            return nil
+        }
+
+        let url = FileManager.default.temporaryDirectory
+            .appendingPathComponent("pika-id-card-\(UUID().uuidString)")
+            .appendingPathExtension("png")
+
+        do {
+            try pngData.write(to: url, options: .atomic)
+            return url
+        } catch {
+            return nil
+        }
+    }
+}
+
+private struct SaveIDCardAlert: Identifiable {
+    let id = UUID()
+    let title: String
+    let message: String
 }
 
 private struct PikaIDCardView: View {
@@ -213,9 +301,10 @@ private struct CompleteActionButton: View {
     let title: String
     let systemName: String
     let style: CompleteActionButtonStyle
+    var action: () -> Void = {}
 
     var body: some View {
-        Button(action: {}) {
+        Button(action: action) {
             HStack(spacing: 12) {
                 Text(title)
                     .font(PikaFonts.regular(size: 19, relativeTo: .headline))

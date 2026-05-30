@@ -24,6 +24,8 @@
 	<string>Pika uses the camera to capture your onboarding photo.</string>
 	<key>NSMicrophoneUsageDescription</key>
 	<string>Pika uses the microphone to record your onboarding voice sample.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Pika saves your ID card image to your photo library.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Pika uses speech recognition to highlight the text as you read.</string>
 	<key>UIApplicationSceneManifest</key>
