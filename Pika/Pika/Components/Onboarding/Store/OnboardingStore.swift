@@ -13,16 +13,16 @@ import AVFoundation
 final class OnboardingStore: ObservableObject, Identifiable {
     let id = UUID()
     let user: User
-    let completeStepStore: CompleteStepStore
+    let repository: UserRepository
 
     @Published var currentStep: OnboardingStep
     @Published var isRecording = false
     @Published var isVoiceReadyForReview = false
     @Published var isPlayingRecordedAudio = false
     @Published var transcript = ""
+    @Published var readingProgress = ReadingProgress(completedWordCount: 0, completedRange: nil)
     @Published var errorMessage: String?
 
-    private let repository: UserRepository
     private let audioRecorder = AudioRecorder()
     private var audioPlayer: AVAudioPlayer?
     private var pendingAudioData: Data?
@@ -31,7 +31,6 @@ final class OnboardingStore: ObservableObject, Identifiable {
         self.user = user
         self.currentStep = initialStep
         self.repository = repository
-        self.completeStepStore = CompleteStepStore(userId: user.userId, repository: repository)
     }
 
     func goBack() -> Bool {
@@ -125,6 +124,7 @@ final class OnboardingStore: ObservableObject, Identifiable {
                 isVoiceReadyForReview = false
                 isPlayingRecordedAudio = false
                 transcript = ""
+                readingProgress = ReadingProgress(completedWordCount: 0, completedRange: nil)
                 try await audioRecorder.start(
                     onTranscript: { [weak self] transcript in
                         Task { @MainActor in
@@ -149,8 +149,16 @@ final class OnboardingStore: ObservableObject, Identifiable {
 
     private func handleTranscript(_ transcript: String) {
         self.transcript = transcript
+        let progress = ReadingProgressMatcher.progress(
+            in: VoicePrompt.paragraph,
+            transcript: transcript
+        )
 
-        guard isRecording, hasMatchedPrompt(transcript) else { return }
+        if progress.completedWordCount >= readingProgress.completedWordCount {
+            readingProgress = progress
+        }
+
+        guard isRecording, readingProgress.completedWordCount >= VoicePrompt.wordCount else { return }
         finishRecordingForReview()
     }
 
@@ -178,19 +186,13 @@ final class OnboardingStore: ObservableObject, Identifiable {
         isVoiceReadyForReview = false
         isPlayingRecordedAudio = false
         transcript = ""
+        readingProgress = ReadingProgress(completedWordCount: 0, completedRange: nil)
     }
 
     private func stopPlayback() {
         audioPlayer?.stop()
         audioPlayer = nil
         isPlayingRecordedAudio = false
-    }
-
-    private func hasMatchedPrompt(_ transcript: String) -> Bool {
-        ReadingProgressMatcher.progress(
-            in: VoicePrompt.paragraph,
-            transcript: transcript
-        ).completedWordCount >= VoicePrompt.wordCount
     }
 }
 

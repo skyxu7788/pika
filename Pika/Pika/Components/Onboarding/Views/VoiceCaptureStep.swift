@@ -92,10 +92,7 @@ struct VoiceCaptureStep: View {
     }
 
     private var readingProgressText: Text {
-        let progress = ReadingProgressMatcher.progress(
-            in: VoicePrompt.paragraph,
-            transcript: store.transcript
-        )
+        let progress = store.readingProgress
         let remainingColor = PikaColors.unrecordedPrompt
         let completedColor = Color(red: 0.37, green: 0.27, blue: 0.74)
 
@@ -160,6 +157,10 @@ struct VoiceCaptureStep_Previews: PreviewProvider {
             initialStep: .voice
         )
         store.transcript = transcript
+        store.readingProgress = ReadingProgressMatcher.progress(
+            in: VoicePrompt.paragraph,
+            transcript: transcript
+        )
         store.isVoiceReadyForReview = isVoiceReadyForReview
         return store
     }

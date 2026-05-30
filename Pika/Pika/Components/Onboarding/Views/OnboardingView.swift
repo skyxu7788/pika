@@ -41,7 +41,7 @@ struct OnboardingView: View {
                 VoiceCaptureStep(store: store)
                     .transition(.opacity)
             case .complete:
-                CompleteStep(store: store.completeStepStore)
+                CompleteStep(store: CompleteStepStore(userId: store.user.userId, repository: store.repository))
                     .transition(.opacity)
             }
 

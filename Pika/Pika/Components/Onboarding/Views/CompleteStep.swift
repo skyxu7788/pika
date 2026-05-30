@@ -11,7 +11,11 @@ import AVFoundation
 import UIKit
 
 struct CompleteStep: View {
-    @ObservedObject var store: CompleteStepStore
+    @StateObject private var store: CompleteStepStore
+
+    init(store: CompleteStepStore) {
+        _store = StateObject(wrappedValue: store)
+    }
 
     var body: some View {
         ZStack(alignment: .topTrailing) {

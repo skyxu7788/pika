@@ -7,6 +7,7 @@
 
 import Foundation
 import AVFoundation
+import UIKit
 
 final class CameraController: NSObject, ObservableObject {
     let session = AVCaptureSession()
@@ -131,6 +132,13 @@ private final class PhotoCaptureDelegate: NSObject, AVCapturePhotoCaptureDelegat
             return
         }
 
-        completion(photo.fileDataRepresentation())
+        guard let data = photo.fileDataRepresentation(),
+              let image = UIImage(data: data),
+              let encodedData = image.jpegData(compressionQuality: 0.9) else {
+            completion(nil)
+            return
+        }
+
+        completion(encodedData)
     }
 }

@@ -19,6 +19,7 @@ enum ReadingProgressMatcher {
 
         var targetIndex = 0
         var spokenIndex = 0
+        var skippedTargetWordCount = 0
 
         while targetIndex < targetWords.count, spokenIndex < spokenWords.count {
             let target = targetWords[targetIndex].normalized
@@ -28,6 +29,26 @@ enum ReadingProgressMatcher {
                 targetIndex += 1
                 spokenIndex += 1
             } else if targetIndex > 0, wordsMatch(targetWords[targetIndex - 1].normalized, spoken) {
+                spokenIndex += 1
+            } else if let nextTargetIndex = nextMatchingTargetIndex(
+                in: targetWords,
+                startingAt: targetIndex + 1,
+                spoken: spoken,
+                remainingSkips: maxSkippedTargetWords - skippedTargetWordCount
+            ) {
+                skippedTargetWordCount += nextTargetIndex - targetIndex
+                targetIndex = nextTargetIndex + 1
+                spokenIndex += 1
+            } else if let nextSpokenIndex = nextMatchingSpokenIndex(
+                in: spokenWords,
+                startingAt: spokenIndex + 1,
+                target: target
+            ) {
+                spokenIndex = nextSpokenIndex + 1
+                targetIndex += 1
+            } else if skippedTargetWordCount < maxSkippedTargetWords {
+                skippedTargetWordCount += 1
+                targetIndex += 1
                 spokenIndex += 1
             } else {
                 break
@@ -47,6 +68,39 @@ enum ReadingProgressMatcher {
 
     static func wordCount(in text: String) -> Int {
         words(in: text, keepsRanges: false).count
+    }
+
+    private static let maxSkippedTargetWords = 5
+    private static let skippedWordSearchWindow = 2
+    private static let extraSpokenWordSearchWindow = 3
+
+    private static func nextMatchingTargetIndex(
+        in targetWords: [Word],
+        startingAt startIndex: Int,
+        spoken: String,
+        remainingSkips: Int
+    ) -> Int? {
+        guard remainingSkips > 0 else { return nil }
+
+        let endIndex = min(targetWords.count, startIndex + min(remainingSkips, skippedWordSearchWindow))
+        guard startIndex < endIndex else { return nil }
+
+        return (startIndex..<endIndex).first { index in
+            wordsMatch(targetWords[index].normalized, spoken)
+        }
+    }
+
+    private static func nextMatchingSpokenIndex(
+        in spokenWords: [Word],
+        startingAt startIndex: Int,
+        target: String
+    ) -> Int? {
+        let endIndex = min(spokenWords.count, startIndex + extraSpokenWordSearchWindow)
+        guard startIndex < endIndex else { return nil }
+
+        return (startIndex..<endIndex).first { index in
+            wordsMatch(target, spokenWords[index].normalized)
+        }
     }
 
     private static func words(in text: String, keepsRanges: Bool) -> [Word] {
@@ -75,7 +129,11 @@ enum ReadingProgressMatcher {
     }
 
     private static func allowedDistance(for target: String, and spoken: String) -> Int {
-        min(target.count, spoken.count) >= 4 ? 1 : 0
+        if min(target.count, spoken.count) >= 5 {
+            return target.first == spoken.first ? 2 : 1
+        }
+
+        return min(target.count, spoken.count) >= 4 ? 1 : 0
     }
 
     private static func editDistance(_ first: String, _ second: String) -> Int {
