@@ -17,22 +17,7 @@ struct PikaApp: App {
         let session = AVAudioSession.sharedInstance()
         try? session.setCategory(.ambient, mode: .default, options: [.mixWithOthers])
         try? session.setActive(true)
-
-//        Self.prewarmFonts()
     }
-
-//    private static func prewarmFonts() {
-//        let names = [
-//            "Telka-ExtendedBlack",
-//            "Telka-ExtendedBold",
-//            "Telka-ExtendedMedium",
-//            "Telka-Regular",
-//            "Telka-Medium",
-//        ]
-//        for name in names {
-//            _ = UIFont(name: name, size: 17)
-//        }
-//    }
 
     var body: some Scene {
         WindowGroup {
