@@ -146,20 +146,21 @@ private struct PhoneNumberField: View {
 
                 Text("+1")
                     .font(PikaFonts.regular(size: 16, relativeTo: .body))
+                    .foregroundStyle(PikaColors.textfieldTextColor)
             }
-            .frame(width: 76, height: 56)
+            .frame(width: 76, height: 48)
             .background(
-                Capsule()
-                    .fill(.white.opacity(0.72))
+              RoundedRectangle(cornerRadius: 20)
+                .fill(PikaColors.surfacelight)
             )
 
-            TextField("Phone number", text: $text)
+          TextField("Phone number", text: $text)
                 .focused(phoneNumberFocused)
                 .keyboardType(.phonePad)
                 .textContentType(.telephoneNumber)
-                .font(PikaFonts.regular(size: 20, relativeTo: .body))
-                .tint(.black)
-                .frame(maxWidth: .infinity, minHeight: 56, alignment: .leading)
+                .font(PikaFonts.regular(size: 17, relativeTo: .body))
+                .foregroundStyle(PikaColors.textfieldTextColor)
+                .frame(height: 48, alignment: .leading)
                 .onChange(of: text) { _, newValue in
                     let digitCount = newValue.filter(\.isNumber).count
                     if digitCount >= 10 {
@@ -168,11 +169,10 @@ private struct PhoneNumberField: View {
                 }
         }
         .padding(.horizontal, 4)
-        .frame(height: 56)
         .foregroundStyle(PikaColors.contentDarkTertiary)
         .background(
             RoundedRectangle(cornerRadius: 20, style: .continuous)
-                .fill(.white.opacity(0.38))
+                .fill(PikaColors.textfieldColor)
                 .stroke(.black.opacity(0.24), lineWidth: 1.2)
         )
         .contentShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
@@ -199,7 +199,7 @@ private struct ContinueButton: View {
                 .font(.system(size: 18, weight: .bold))
                 .foregroundStyle(.black)
                 .frame(maxWidth: .infinity)
-                .frame(height: 68)
+                .frame(height: 58)
                 .contentShape(RoundedRectangle(cornerRadius: 18, style: .continuous))
         }
         .buttonStyle(.plain)
@@ -219,7 +219,7 @@ private struct DividerLabel: View {
 
             Text("Or continue with")
                 .font(.system(size: 14, weight: .semibold))
-                .foregroundStyle(.secondary)
+                .foregroundStyle(PikaColors.contentDarkTertiary)
                 .fixedSize()
 
             Rectangle()

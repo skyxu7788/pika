@@ -58,7 +58,7 @@ struct OnboardingView: View {
             }
         }
         .animation(.easeInOut(duration: 0.2), value: store.currentStep.progress)
-        .background(PikaColors.onboardingBackground)
+        .background(PikaColors.surfacelight)
         .onDisappear {
             store.stopRecordingIfNeeded()
         }

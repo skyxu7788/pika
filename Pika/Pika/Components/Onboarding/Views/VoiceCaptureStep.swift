@@ -34,7 +34,7 @@ struct VoiceCaptureStep: View {
             Spacer()
 
             readingProgressText
-                .font(.system(size: 30, weight: .bold))
+                .font(PikaFonts.extendedMedium(size: 28, relativeTo: .title2))
                 .multilineTextAlignment(.center)
                 .lineSpacing(10)
                 .padding(.horizontal, 20)
@@ -54,40 +54,65 @@ struct VoiceCaptureStep: View {
                 .padding(.bottom, 50)
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(PikaColors.onboardingBackground)
+        .background(PikaColors.surfacelight)
     }
 
     @ViewBuilder
     private var voiceControls: some View {
         if store.isVoiceReadyForReview {
             HStack(spacing: 60) {
-                ReviewControlButton(systemName: "arrow.counterclockwise", action: store.retryVoiceRecording)
+              ReviewControlButton(name: "switch", action: store.retryVoiceRecording)
 
-                Button(action: store.confirmVoiceRecording) {
-                    Image(systemName: "checkmark")
-                        .font(.system(size: 30, weight: .regular))
-                        .foregroundStyle(.black)
-                        .frame(width: 90, height: 90)
-                        .background(Color(red: 0.78, green: 0.70, blue: 1.0), in: Circle())
+              Button(action: {
+                store.confirmVoiceRecording()
+              }, label: {
+                Circle()
+                  .fill(PikaColors.accentPrimary)
+                  .frame(width: 80, height: 80)
+                  .overlay {
+                    Image("checkmark")
+                      .resizable()
+                      .scaledToFit()
+                      .frame(width: 20, height: 20)
+                  }
+              })
+              .buttonStyle(.plain)
+
+              ReviewControlButton(name: "play", action: store.playRecordedAudio)
+            }
+        } else {
+            VStack(spacing: 15) {
+                Button {
+                    store.toggleRecording()
+                } label: {
+                    if !store.isRecording {
+                        Circle()
+                            .fill(PikaColors.accentPrimary)
+                            .frame(width: 80, height: 80)
+                            .overlay {
+                                Circle()
+                                    .fill(.black)
+                                    .frame(width: 20, height: 20)
+                            }
+                    } else {
+                        Circle()
+                            .fill(PikaColors.accentQuatenry)
+                            .frame(width: 80, height: 80)
+                            .overlay {
+                                Circle()
+                                    .fill(PikaColors.accentDark)
+                                    .frame(width: 20, height: 20)
+                            }
+                    }
                 }
                 .buttonStyle(.plain)
 
-                ReviewControlButton(systemName: "play.fill", action: store.playRecordedAudio)
+                if store.isRecording {
+                    Text("Listening...")
+                        .font(PikaFonts.medium(size: 12, relativeTo: .body))
+                        .foregroundStyle(PikaColors.contentDarkTertiary)
+                }
             }
-        } else {
-            Button {
-                store.toggleRecording()
-            } label: {
-                Circle()
-                    .fill(Color(red: 0.78, green: 0.70, blue: 1.0))
-                    .frame(width: 90, height: 90)
-                    .overlay {
-                        Circle()
-                            .fill(store.isRecording ? .red : .black)
-                            .frame(width: store.isRecording ? 30 : 22, height: store.isRecording ? 30 : 22)
-                    }
-            }
-            .buttonStyle(.plain)
         }
     }
 
@@ -118,16 +143,20 @@ struct VoiceCaptureStep: View {
 }
 
 private struct ReviewControlButton: View {
-    let systemName: String
+    let name: String
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
-            Image(systemName: systemName)
-            .font(.system(size: 20, weight: .regular))
-            .foregroundStyle(PikaColors.contentDarkTertiary)
-                .frame(width: 70, height: 70)
-                .background(.black.opacity(0.06), in: Circle())
+          Circle()
+            .fill(PikaColors.contentDarkTertiary.opacity(0.05))
+            .frame(width: 48, height: 48)
+            .overlay {
+              Image(name)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 20, height: 20)
+            }
         }
         .buttonStyle(.plain)
     }
@@ -135,13 +164,22 @@ private struct ReviewControlButton: View {
 
 struct VoiceCaptureStep_Previews: PreviewProvider {
     static var previews: some View {
-        VoiceCaptureStep(store: previewStore())
-            .previewDisplayName("Review")
+        Group {
+          VoiceCaptureStep(store: previewStore(isVoiceReadyForReview: false, isRecording: false))
+              .previewDisplayName("Not Recording")
+
+          VoiceCaptureStep(store: previewStore(isVoiceReadyForReview: false, isRecording: true))
+              .previewDisplayName("Recording")
+
+          VoiceCaptureStep(store: previewStore())
+              .previewDisplayName("Review")
+        }
     }
 
     private static func previewStore(
         transcript: String = VoicePrompt.paragraph,
-        isVoiceReadyForReview: Bool = true
+        isVoiceReadyForReview: Bool = true,
+        isRecording: Bool = false
     ) -> OnboardingStore {
         let controller = PersistenceController(inMemory: true)
         let user = User(context: controller.container.viewContext)
@@ -162,6 +200,7 @@ struct VoiceCaptureStep_Previews: PreviewProvider {
             transcript: transcript
         )
         store.isVoiceReadyForReview = isVoiceReadyForReview
+        store.isRecording = isRecording
         return store
     }
 }

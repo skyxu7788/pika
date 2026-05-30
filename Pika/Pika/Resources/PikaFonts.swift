@@ -13,7 +13,19 @@ enum PikaFonts {
         .custom("Telka-ExtendedBlack", size: size, relativeTo: textStyle)
     }
 
+    static func extendedBold(size: CGFloat, relativeTo textStyle: Font.TextStyle) -> Font {
+        .custom("Telka-ExtendedBold", size: size, relativeTo: textStyle)
+    }
+
+    static func extendedMedium(size: CGFloat, relativeTo textStyle: Font.TextStyle) -> Font {
+        .custom("Telka-ExtendedMedium", size: size, relativeTo: textStyle)
+    }
+
     static func regular(size: CGFloat, relativeTo textStyle: Font.TextStyle) -> Font {
         .custom("Telka-Regular", size: size, relativeTo: textStyle)
+    }
+
+    static func medium(size: CGFloat, relativeTo textStyle: Font.TextStyle) -> Font {
+        .custom("Telka-Medium", size: size, relativeTo: textStyle)
     }
 }

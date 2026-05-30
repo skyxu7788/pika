@@ -21,8 +21,8 @@ struct CompleteStep: View {
         ZStack(alignment: .topTrailing) {
             LinearGradient(
                 colors: PikaColors.profileCardBackground,
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
+                startPoint: .leading,
+                endPoint: .trailing
             )
             .ignoresSafeArea()
 
@@ -62,12 +62,14 @@ struct CompleteStep: View {
             Button(action: {}) {
                 Image(systemName: "xmark")
                     .font(.system(size: 23, weight: .medium))
-                    .foregroundStyle(.black.opacity(0.86))
                     .frame(width: 62, height: 62)
-                    .background(.white.opacity(0.5), in: Circle())
-                    .overlay {
-                        Circle()
-                            .stroke(.black.opacity(0.06), lineWidth: 1)
+                    .background {
+                        RoundedRectangle(cornerRadius: 20, style: .continuous)
+                            .fill(PikaColors.surfaceDark.opacity(0.05))
+                            .overlay {
+                                RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                    .stroke(PikaColors.textfieldColor, lineWidth: 1)
+                            }
                     }
             }
             .buttonStyle(.plain)
@@ -194,7 +196,7 @@ private struct IDFact: View {
 
 private struct PikaMark: View {
     var body: some View {
-        Image(systemName: "cloud.fill")
+        Image("logo")
             .font(.system(size: 30, weight: .black))
             .foregroundStyle(.black)
             .rotationEffect(.degrees(8))
