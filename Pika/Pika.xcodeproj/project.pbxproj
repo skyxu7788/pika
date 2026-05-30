@@ -18,6 +18,7 @@
 		337789722FCA3E230010CB62 /* CompleteStep.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337789712FCA3E230010CB62 /* CompleteStep.swift */; };
 		337789742FCA5B100010CB62 /* CompleteStepStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337789732FCA5B100010CB62 /* CompleteStepStore.swift */; };
 		337789762FCA55C30010CB62 /* CompleteStepProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337789752FCA55C30010CB62 /* CompleteStepProfile.swift */; };
+		337789792FCB83140010CB62 /* HeroVideoPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 337789782FCB83140010CB62 /* HeroVideoPlayer.swift */; };
 		33D3F2C02FC8D531000335E2 /* PikaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3F2BF2FC8D531000335E2 /* PikaApp.swift */; };
 		33D3F2C22FC8D531000335E2 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33D3F2C12FC8D531000335E2 /* ContentView.swift */; };
 		33D3F2C42FC8D532000335E2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 33D3F2C32FC8D532000335E2 /* Assets.xcassets */; };
@@ -56,6 +57,7 @@
 		337789712FCA3E230010CB62 /* CompleteStep.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteStep.swift; sourceTree = "<group>"; };
 		337789732FCA5B100010CB62 /* CompleteStepStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteStepStore.swift; sourceTree = "<group>"; };
 		337789752FCA55C30010CB62 /* CompleteStepProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteStepProfile.swift; sourceTree = "<group>"; };
+		337789782FCB83140010CB62 /* HeroVideoPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeroVideoPlayer.swift; sourceTree = "<group>"; };
 		33D3F2BC2FC8D531000335E2 /* Pika.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Pika.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		33D3F2BF2FC8D531000335E2 /* PikaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PikaApp.swift; sourceTree = "<group>"; };
 		33D3F2C12FC8D531000335E2 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -109,6 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				33D3F2C12FC8D531000335E2 /* ContentView.swift */,
+				337789782FCB83140010CB62 /* HeroVideoPlayer.swift */,
 			);
 			path = "Landing page";
 			sourceTree = "<group>";
@@ -364,6 +367,7 @@
 			files = (
 				33D3F2E82FC8DD87000335E2 /* OnboardingView.swift in Sources */,
 				33D3F2EA2FC8E9B5000335E2 /* ReadingProgressMatcher.swift in Sources */,
+				337789792FCB83140010CB62 /* HeroVideoPlayer.swift in Sources */,
 				337789762FCA55C30010CB62 /* CompleteStepProfile.swift in Sources */,
 				33D3F2EC2FC8F6A0000335E2 /* PersistenceController.swift in Sources */,
 				33D3F2EE2FC8F6A0000335E2 /* User.swift in Sources */,

@@ -9,11 +9,14 @@ import Foundation
 import SwiftUI
 import AVFoundation
 import UIKit
-import Photos
+import UniformTypeIdentifiers
 
 struct CompleteStep: View {
     @StateObject private var store: CompleteStepStore
-    @State private var saveAlert: SaveIDCardAlert?
+    @State private var shareItem: IDCardShareItem?
+    @State private var shareAlert: IDCardShareAlert?
+    @State private var preparedShareImage: UIImage?
+    @State private var preparedShareProfileId: String?
     let onClose: () -> Void
 
     init(store: CompleteStepStore, onClose: @escaping () -> Void = {}) {
@@ -56,12 +59,15 @@ struct CompleteStep: View {
                             systemName: "square.and.arrow.up",
                             style: .secondary,
                             action: {
-                                saveIDCard(profile)
+                                shareIDCard(profile)
                             }
                         )
                     }
                 }
                 .padding(.horizontal, 28)
+                .task(id: profile.userId) {
+                    prepareShareImage(for: profile)
+                }
             } else {
                 Text(store.errorMessage ?? "Loading your profile...")
                     .font(PikaFonts.regular(size: 18, relativeTo: .body))
@@ -88,7 +94,11 @@ struct CompleteStep: View {
             .padding(.top, 26)
             .padding(.trailing, 28)
         }
-        .alert(item: $saveAlert) { alert in
+        .background {
+            ShareSheetPresenter(item: $shareItem)
+                .frame(width: 0, height: 0)
+        }
+        .alert(item: $shareAlert) { alert in
             Alert(
                 title: Text(alert.title),
                 message: Text(alert.message),
@@ -97,44 +107,30 @@ struct CompleteStep: View {
         }
     }
 
-    private func saveIDCard(_ profile: CompleteStepProfile) {
-        guard let pngURL = renderedIDCardPNGURL(for: profile) else {
-            saveAlert = SaveIDCardAlert(
-                title: "Could Not Save",
+    private func shareIDCard(_ profile: CompleteStepProfile) {
+        let image = preparedShareProfileId == profile.userId
+            ? preparedShareImage
+            : renderedIDCardImage(for: profile)
+
+        guard let image else {
+            shareAlert = IDCardShareAlert(
+                title: "Could Not Share",
                 message: "The ID card image could not be created."
             )
             return
         }
 
-        PHPhotoLibrary.requestAuthorization(for: .addOnly) { status in
-            guard status == .authorized || status == .limited else {
-                try? FileManager.default.removeItem(at: pngURL)
-
-                DispatchQueue.main.async {
-                    saveAlert = SaveIDCardAlert(
-                        title: "Photos Access Needed",
-                        message: "Allow photo library access to save your ID card."
-                    )
-                }
-                return
-            }
-
-            PHPhotoLibrary.shared().performChanges {
-                PHAssetChangeRequest.creationRequestForAssetFromImage(atFileURL: pngURL)
-            } completionHandler: { success, _ in
-                try? FileManager.default.removeItem(at: pngURL)
-
-                DispatchQueue.main.async {
-                    saveAlert = SaveIDCardAlert(
-                        title: success ? "Saved" : "Could Not Save",
-                        message: success ? "Your ID card was saved to Photos." : "Please try saving your ID card again."
-                    )
-                }
-            }
+        DispatchQueue.main.async {
+            shareItem = IDCardShareItem(image: image)
         }
     }
 
-    private func renderedIDCardPNGURL(for profile: CompleteStepProfile) -> URL? {
+    private func prepareShareImage(for profile: CompleteStepProfile) {
+        preparedShareImage = renderedIDCardImage(for: profile)
+        preparedShareProfileId = profile.userId
+    }
+
+    private func renderedIDCardImage(for profile: CompleteStepProfile) -> UIImage? {
         let renderer = ImageRenderer(
             content: PikaIDCardView(profile: profile)
                 .frame(width: 250, height: 450)
@@ -143,28 +139,129 @@ struct CompleteStep: View {
         )
         renderer.scale = UIScreen.main.scale
 
-        guard let image = renderer.uiImage,
-              let pngData = image.pngData() else {
-            return nil
-        }
-
-        let url = FileManager.default.temporaryDirectory
-            .appendingPathComponent("pika-id-card-\(UUID().uuidString)")
-            .appendingPathExtension("png")
-
-        do {
-            try pngData.write(to: url, options: .atomic)
-            return url
-        } catch {
-            return nil
-        }
+        return renderer.uiImage
     }
 }
 
-private struct SaveIDCardAlert: Identifiable {
+private struct IDCardShareItem: Identifiable {
+    let id = UUID()
+    let image: UIImage
+}
+
+private struct IDCardShareAlert: Identifiable {
     let id = UUID()
     let title: String
     let message: String
+}
+
+private final class IDCardActivityItemSource: NSObject, UIActivityItemSource {
+    let image: UIImage
+
+    init(image: UIImage) {
+        self.image = image
+    }
+
+    func activityViewControllerPlaceholderItem(_ activityViewController: UIActivityViewController) -> Any {
+        image
+    }
+
+    func activityViewController(
+        _ activityViewController: UIActivityViewController,
+        itemForActivityType activityType: UIActivity.ActivityType?
+    ) -> Any? {
+        image
+    }
+
+    func activityViewController(
+        _ activityViewController: UIActivityViewController,
+        dataTypeIdentifierForActivityType activityType: UIActivity.ActivityType?
+    ) -> String {
+        UTType.png.identifier
+    }
+
+    func activityViewController(
+        _ activityViewController: UIActivityViewController,
+        subjectForActivityType activityType: UIActivity.ActivityType?
+    ) -> String {
+        "Pika ID Card"
+    }
+
+    func activityViewController(
+        _ activityViewController: UIActivityViewController,
+        thumbnailImageForActivityType activityType: UIActivity.ActivityType?,
+        suggestedSize size: CGSize
+    ) -> UIImage? {
+        image
+    }
+}
+
+private struct ShareSheetPresenter: UIViewControllerRepresentable {
+    @Binding var item: IDCardShareItem?
+
+    func makeUIViewController(context: Context) -> UIViewController {
+        UIViewController()
+    }
+
+    func updateUIViewController(_ uiViewController: UIViewController, context: Context) {
+        context.coordinator.parent = self
+
+        guard let item else {
+            context.coordinator.presentedController?.dismiss(animated: true)
+            context.coordinator.clearPresentation()
+            return
+        }
+
+        guard context.coordinator.presentedItemId != item.id,
+              context.coordinator.presentedController == nil else {
+            return
+        }
+
+        let controller = UIActivityViewController(
+            activityItems: [IDCardActivityItemSource(image: item.image)],
+            applicationActivities: nil
+        )
+
+        if let popover = controller.popoverPresentationController {
+            popover.sourceView = uiViewController.view
+            popover.sourceRect = uiViewController.view.bounds
+        }
+
+        context.coordinator.presentedItemId = item.id
+        context.coordinator.presentedController = controller
+        controller.completionWithItemsHandler = { _, _, _, _ in
+            DispatchQueue.main.async {
+                context.coordinator.finishPresentation(for: item.id)
+            }
+        }
+
+        uiViewController.present(controller, animated: true)
+    }
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(parent: self)
+    }
+
+    final class Coordinator {
+        var parent: ShareSheetPresenter
+        weak var presentedController: UIActivityViewController?
+        var presentedItemId: UUID?
+
+        init(parent: ShareSheetPresenter) {
+            self.parent = parent
+        }
+
+        func finishPresentation(for itemId: UUID) {
+            guard presentedItemId == itemId else { return }
+
+            clearPresentation()
+            parent.item = nil
+        }
+
+        func clearPresentation() {
+            presentedController = nil
+            presentedItemId = nil
+        }
+    }
 }
 
 private struct PikaIDCardView: View {

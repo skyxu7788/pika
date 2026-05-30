@@ -13,7 +13,6 @@ import UIKit
 
 struct ContentView: View {
     @Environment(\.managedObjectContext) private var managedObjectContext
-    @Environment(\.scenePhase) private var scenePhase
     @StateObject private var heroVideo = HeroVideoPlayer()
     @State private var phoneNumber = ""
     @State private var onboardingStore: OnboardingStore?
@@ -23,13 +22,8 @@ struct ContentView: View {
     var body: some View {
         ZStack(alignment: .bottom) {
             ZStack {
-                Color(red: 0.96, green: 0.96, blue: 0.95)
-
                 LoopingVideoPlayer(player: heroVideo.player)
-            }
-            .contentShape(Rectangle())
-            .onTapGesture {
-                isPhoneNumberFocused = false
+                    .allowsHitTesting(false)
             }
             .ignoresSafeArea()
 
@@ -44,36 +38,20 @@ struct ContentView: View {
                 .padding(.horizontal, 28)
                 .padding(.bottom, 28)
         }
-        .simultaneousGesture(
-            DragGesture(minimumDistance: 20)
-                .onEnded { value in
-                    guard value.translation.height > 20 else { return }
-                    isPhoneNumberFocused = false
-                }
-        )
         .task {
-            heroVideo.play()
+            heroVideo.prepareAndPlay()
+            prewarmKeyboard()
         }
-        .onChange(of: scenePhase) { _, phase in
-            switch phase {
-            case .active:
-                heroVideo.play()
-            case .inactive, .background:
-                heroVideo.pause()
-            @unknown default:
-                heroVideo.pause()
-            }
-        }
-        .fullScreenCover(item: $onboardingStore, onDismiss: {
-            heroVideo.play()
-        }) { store in
-            OnboardingView(store: store) {
-                onboardingStore = nil
-            }
+        .fullScreenCover(item: $onboardingStore) { store in
+            OnboardingView(store: store, onDismiss: dismissOnboarding)
+                .interactiveDismissDisabled()
         }
     }
 
     private func openOnboarding(phoneNumber: String?, email: String?) {
+        isPhoneNumberFocused = false
+        dismissKeyboard()
+
         do {
             let repository = UserRepository(context: managedObjectContext)
             let user = try repository.findOrCreateUser(phoneNumber: phoneNumber, email: email)
@@ -83,6 +61,46 @@ struct ContentView: View {
             heroVideo.pause()
         } catch {
             authError = "Could not open onboarding. Please try again."
+        }
+    }
+
+    private func dismissOnboarding() {
+        resetToLanding()
+        onboardingStore = nil
+    }
+
+    private func resetToLanding() {
+        isPhoneNumberFocused = false
+        phoneNumber = ""
+        authError = nil
+        dismissKeyboard()
+        heroVideo.prepareAndPlay()
+    }
+
+    private func dismissKeyboard() {
+        UIApplication.shared.sendAction(
+            #selector(UIResponder.resignFirstResponder),
+            to: nil,
+            from: nil,
+            for: nil
+        )
+    }
+
+    private func prewarmKeyboard() {
+        guard let window = UIApplication.shared.connectedScenes
+            .compactMap({ $0 as? UIWindowScene })
+            .flatMap(\.windows)
+            .first(where: \.isKeyWindow) else { return }
+
+        let field = UITextField(frame: CGRect(x: -100, y: -100, width: 1, height: 1))
+        field.keyboardType = .phonePad
+        field.autocorrectionType = .no
+        field.spellCheckingType = .no
+        window.addSubview(field)
+        field.becomeFirstResponder()
+        DispatchQueue.main.async {
+            field.resignFirstResponder()
+            field.removeFromSuperview()
         }
     }
 }
@@ -157,16 +175,9 @@ private struct PhoneNumberField: View {
           TextField("Phone number", text: $text)
                 .focused(phoneNumberFocused)
                 .keyboardType(.phonePad)
-                .textContentType(.telephoneNumber)
                 .font(PikaFonts.regular(size: 17, relativeTo: .body))
                 .foregroundStyle(PikaColors.textfieldTextColor)
                 .frame(height: 48, alignment: .leading)
-                .onChange(of: text) { _, newValue in
-                    let digitCount = newValue.filter(\.isNumber).count
-                    if digitCount >= 10 {
-                        phoneNumberFocused.wrappedValue = false
-                    }
-                }
         }
         .padding(.horizontal, 4)
         .foregroundStyle(PikaColors.contentDarkTertiary)
@@ -176,9 +187,6 @@ private struct PhoneNumberField: View {
                 .stroke(.black.opacity(0.24), lineWidth: 1.2)
         )
         .contentShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
-        .onTapGesture {
-            phoneNumberFocused.wrappedValue = true
-        }
     }
 }
 
@@ -271,63 +279,6 @@ private extension EnvironmentValues {
     var authActions: AuthActions {
         get { self[AuthActionsKey.self] }
         set { self[AuthActionsKey.self] = newValue }
-    }
-}
-
-private final class HeroVideoPlayer: ObservableObject {
-    let player = AVQueuePlayer()
-    private var looper: AVPlayerLooper?
-
-    init() {
-        guard let url = Bundle.main.url(forResource: "AppHeroVideo-1080x1920-5k", withExtension: "mp4") else {
-            return
-        }
-
-        let asset = AVURLAsset(url: url)
-        let item = AVPlayerItem(asset: asset)
-        item.preferredForwardBufferDuration = 1
-
-        player.isMuted = true
-        player.actionAtItemEnd = .none
-        player.preventsDisplaySleepDuringVideoPlayback = false
-        player.automaticallyWaitsToMinimizeStalling = false
-        looper = AVPlayerLooper(player: player, templateItem: item)
-    }
-
-    func play() {
-        player.play()
-    }
-
-    func pause() {
-        player.pause()
-    }
-}
-
-private struct LoopingVideoPlayer: UIViewRepresentable {
-    let player: AVPlayer
-
-    func makeUIView(context: Context) -> PlayerView {
-        let view = PlayerView()
-        view.playerLayer.player = player
-        view.playerLayer.videoGravity = .resizeAspectFill
-        view.playerLayer.needsDisplayOnBoundsChange = false
-        return view
-    }
-
-    func updateUIView(_ uiView: PlayerView, context: Context) {
-        if uiView.playerLayer.player !== player {
-            uiView.playerLayer.player = player
-        }
-    }
-}
-
-private final class PlayerView: UIView {
-    override static var layerClass: AnyClass {
-        AVPlayerLayer.self
-    }
-
-    var playerLayer: AVPlayerLayer {
-        layer as! AVPlayerLayer
     }
 }
 
